@@ -16,12 +16,13 @@ public:
     void setDirection(Direction dir);
     bool step();
     bool step(Direction dir);
+    const std::queue<Led>* snake() const;
+
 private:
     // queue pop will give you last element in snake and push will add element to snakes head
     std::queue<Led> _snake;
     Direction _dir;
 
-    Led shiftPoint(const Led* led);
 };
 
 #endif // SNAKE_H

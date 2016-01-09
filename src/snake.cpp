@@ -56,9 +56,10 @@ bool Snake::step(Direction dir)
     setDirection(dir);
     step();
 }
-
-Led Snake::shiftPoint(const Led *led)
+const std::queue<Led>* Snake::snake() const
 {
-
+    return &_snake;
 }
+
+
 
