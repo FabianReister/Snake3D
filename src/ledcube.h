@@ -2,13 +2,17 @@
 #define LEDCUBE_H
 
 #include <inttypes.h>
+#include "snake.h"
 
 
 class LedCube
 {
 public:
+    LedCube(const Snake* snake);
+private:
+    const Snake* _snake;
 
-    LedCube();
+
 };
 
 #endif // LEDCUBE_H

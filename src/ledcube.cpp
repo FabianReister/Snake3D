@@ -1,6 +1,7 @@
 #include "ledcube.h"
 
-LedCube::LedCube()
+
+LedCube::LedCube(const Snake *snake) : _snake(snake)
 {
 
 }

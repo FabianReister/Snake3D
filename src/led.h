@@ -5,6 +5,15 @@
 struct Led{
     // vector elements
     uint8_t x,y,z;
+    Led(uint8_t _x, uint8_t _y, uint8_t _z, bool _state = false ){
+        x = _x;
+        y = _y;
+        z = _z;
+
+        state = _state;
+    }
+
+    bool state;
 
     template <typename T2>
     const Led operator+(Vector<T2> v){
