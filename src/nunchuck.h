@@ -32,11 +32,12 @@ public:
     bool connect();
     bool init();
 private:
-    bool write(char* buf, unsigned int buf_length);
-    bool read(char* buf, unsigned int buf_length);
+    bool i2c_write(char* buf, unsigned int buf_length);
+    bool i2c_read(char* buf, unsigned int buf_length);
 
     int _file;
-    char* _filename = "/dev/i2c-2";
+    const char* _filename = "/dev/i2c-2";
 };
+
 
 #endif // NUNCHUCK_H

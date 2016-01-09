@@ -40,23 +40,42 @@ bool Nunchuck<NUNCHUCK_WHITE>::init()
         return false;
     }
     // 0x40, 0x00
-
+    char buf1[] = {0x40, 0x00};
+    if (!i2c_write(buf1, 2)){
+        return false;
+    }
     // 0x00
+    char buf2[] = {0x00};
+    if (!i2c_write(buf2, 1)){
+        return false;
+    }
+    return true;
 
 }
 
 template <>
 bool Nunchuck<NUNCHUCK_BLACK>::init()
 {
+    if (!connect()){
+        return false;
+    }
     // send 0xF0, 0x55
-
+    char buf1[] = { char(0xF0), 0x55};
+    if (!i2c_write(buf1, 2)){
+        return false;
+    }
     // send 0xFB, 0x00
+    char buf2[] = { char(0xFB), 0x00};
+    if (!i2c_write(buf2, 2)){
+        return false;
+    }
+    return true;
 
 }
 
 
 template <NunchuckVariant variant>
-bool Nunchuck<variant>::write(char *buf, unsigned int buf_length)
+bool Nunchuck<variant>::i2c_write(char *buf, unsigned int buf_length)
 {
     if ( write(_file,buf,buf_length) != 1) {
         /* ERROR HANDLING: i2c transaction failed */
@@ -66,7 +85,7 @@ bool Nunchuck<variant>::write(char *buf, unsigned int buf_length)
 
 
 template <NunchuckVariant variant>
-bool Nunchuck<variant>::read(char *buf, unsigned int buf_length)
+bool Nunchuck<variant>::i2c_read(char *buf, unsigned int buf_length)
 {
     //char buf[10] = {0};
     // Using I2C Read
@@ -76,3 +95,8 @@ bool Nunchuck<variant>::read(char *buf, unsigned int buf_length)
     }
 
 }
+
+
+
+template class Nunchuck<NUNCHUCK_BLACK>;
+template class Nunchuck<NUNCHUCK_WHITE>;
