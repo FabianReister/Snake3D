@@ -15,7 +15,7 @@ int main(int argc, char* argv[]){
 
     //i2c.init();
     //nunchuck.isConnected();
-
+    ledCube.updateLeds();
 
     return 0;
 }

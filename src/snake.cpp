@@ -27,12 +27,12 @@ Snake::Snake(uint8_t start_size)
     Led led = { uint8_t(rand() % (CUBE_SIZE-2) + 2),
                 uint8_t(rand() % (CUBE_SIZE-2) + 2),
                 uint8_t(rand() % (CUBE_SIZE-2) + 2)};
-    _snake.push(led);
+    _snake.push_front(led);
 
     for (uint8_t i = 1; i < start_size; i++){
         // TODO check boundings for led
-        led -= _dir;
-        _snake.push(led);
+        led += _dir;
+        _snake.push_back(led);
     }
 
 }
@@ -45,10 +45,10 @@ void Snake::setDirection(Direction dir)
 bool Snake::step()
 {
     // remove snakes end
-    _snake.pop();
+    _snake.pop_back();
     // create new head
     Led new_front = _snake.back() + _dir;
-    _snake.push(new_front);
+    _snake.push_front(new_front);
 }
 
 bool Snake::step(Direction dir)
@@ -56,7 +56,7 @@ bool Snake::step(Direction dir)
     setDirection(dir);
     step();
 }
-const std::queue<Led>* Snake::snake() const
+const std::deque<Led>* Snake::snake() const
 {
     return &_snake;
 }

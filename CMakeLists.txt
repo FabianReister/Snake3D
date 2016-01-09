@@ -6,6 +6,7 @@ add_executable(snake3d
  src/nunchuck.cpp
  src/ledcube.cpp
  src/snake.cpp
+ src/fruits.cpp
 )
 # if cmake version 3.1
 #target_compile_features(snake3d PRIVATE cxx_range_for)

@@ -1,7 +1,7 @@
 ﻿#ifndef SNAKE_H
 #define SNAKE_H
 
-#include <queue>
+#include <deque>
 #include <stdlib.h>
 
 #include "vector.h"
@@ -16,11 +16,11 @@ public:
     void setDirection(Direction dir);
     bool step();
     bool step(Direction dir);
-    const std::queue<Led>* snake() const;
+    const std::deque<Led>* snake() const;
 
 private:
-    // queue pop will give you last element in snake and push will add element to snakes head
-    std::queue<Led> _snake;
+    // queues first element is snakes head
+    std::deque<Led> _snake;
     Direction _dir;
 
 };
