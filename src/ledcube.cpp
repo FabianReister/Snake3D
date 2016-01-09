@@ -2,4 +2,5 @@
 
 LedCube::LedCube()
 {
+
 }
