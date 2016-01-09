@@ -11,9 +11,9 @@ void Fruits::generateFruit()
 
     while(!fruit_set){
         fruit = { uint8_t(rand() % (CUBE_SIZE-1)),
-                uint8_t(rand() % (CUBE_SIZE-1)),
-                uint8_t(rand() % (CUBE_SIZE-1))
-              };
+                  uint8_t(rand() % (CUBE_SIZE-1)),
+                  uint8_t(rand() % (CUBE_SIZE-1))
+                };
         fruit_set = true;
         for (const Led& snake_led : *(_snake->snake())){
             if (snake_led == fruit){
