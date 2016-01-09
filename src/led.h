@@ -1,6 +1,7 @@
 #ifndef LED_H
 #define LED_H
 
+#include "config.h"
 
 struct Led{
     // vector elements
@@ -45,17 +46,15 @@ struct Led{
 
     template <typename T2>
     uint8_t addWithBoundingsCheck(uint8_t a, T2 b){
-        uint8_t min = std::numeric_limits<uint8_t>::min();
-        uint8_t max = std::numeric_limits<uint8_t>::max();
 
         float sum = float(a)+float(b);
 
-        if ( sum > max){
+        if ( sum > CUBE_SIZE - 1){
             //sum is positive
-            return min + sum - max;
-        }else if (sum < min){
+            return sum - CUBE_SIZE;
+        }else if (sum < 0){
             //sum is negative
-            return max - min + sum + 1;
+            return CUBE_SIZE + sum + 1;
         }else{
             return sum;
         }
