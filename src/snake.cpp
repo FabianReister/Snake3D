@@ -7,9 +7,9 @@ Snake::Snake(uint8_t start_size)
     int dimension = rand() % 3 - 1;
     // direction should be either 1 or -1
     int direction = rand() % 2;
-    //if (direction == 0){
-        direction = 1;
-    //}
+    if (direction == 0){
+        direction = -1;
+    }
 
     switch(dimension){
     case 0:
