@@ -1,11 +1,12 @@
 #include "nunchuck.h"
+#include "i2c.h"
 
-Nunchuck<NUNCHUCK_BLACK> nunchuck;
+I2C i2c;
+Nunchuck<NUNCHUCK_BLACK> nunchuck(&i2c);
 
 int main(int argc, char* argv[]){
 
-
-    nunchuck.connect();
+    nunchuck.isConnected();
 
     return 0;
 }
