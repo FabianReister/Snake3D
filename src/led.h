@@ -2,6 +2,9 @@
 #define LED_H
 
 #include "config.h"
+#include <inttypes.h>
+
+#include "vector.h"
 
 struct Led{
     // vector elements
@@ -16,37 +19,40 @@ struct Led{
 
     bool state;
 
+    bool operator==(const Led& rhs) const{
+        return ( (this->x == rhs.x) && (this->y == rhs.y) && (this->z == rhs.z) );
+    }
+
     template <typename T2>
-    const Led operator+(Vector<T2> v){
-        Led shifted = { addWithBoundingsCheck(this->x, v.x),
-                        addWithBoundingsCheck(this->y, v.y),
-                        addWithBoundingsCheck(this->z, v.z)};
+    const Led operator+(const Vector<T2>& rhs) {
+        Led shifted = { addWithBoundingsCheck(this->x, rhs.x),
+                        addWithBoundingsCheck(this->y, rhs.y),
+                        addWithBoundingsCheck(this->z, rhs.z)};
         return shifted;
     }
 
     template <typename T2>
-    const Led& operator+=(Vector<T2> v){
-        *this = *this + v;
+    const Led& operator+=(const Vector<T2>& rhs){
+        *this = *this + rhs;
         return *this;
     }
 
     template <typename T2>
-    const Led operator-(Vector<T2> v){
-        Led shifted = { addWithBoundingsCheck(this->x,-v.x),
-                        addWithBoundingsCheck(this->y,-v.y),
-                        addWithBoundingsCheck(this->z,-v.z)};
+    const Led operator-(const Vector<T2>& rhs){
+        Led shifted = { addWithBoundingsCheck(this->x,-rhs.x),
+                        addWithBoundingsCheck(this->y,-rhs.y),
+                        addWithBoundingsCheck(this->z,-rhs.z)};
         return shifted;
     }
 
     template <typename T2>
-    const Led& operator-=(Vector<T2> v){
-        *this = *this - v;
+    const Led& operator-=(const Vector<T2>& rhs){
+        *this = *this - rhs;
         return *this;
     }
 
     template <typename T2>
     uint8_t addWithBoundingsCheck(uint8_t a, T2 b){
-
         float sum = float(a)+float(b);
 
         if ( sum > CUBE_SIZE - 1){
@@ -58,10 +64,7 @@ struct Led{
         }else{
             return sum;
         }
-
-
     }
-
 
 };
 
