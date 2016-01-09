@@ -6,6 +6,7 @@
 
 #include "vector.h"
 #include "config.h"
+#include "led.h"
 
 
 class Snake
