@@ -6,6 +6,7 @@ Nunchuck<NUNCHUCK_BLACK> nunchuck(&i2c);
 
 int main(int argc, char* argv[]){
 
+    i2c.init();
     nunchuck.isConnected();
 
     return 0;
