@@ -30,14 +30,13 @@ Snake::Snake(uint8_t start_size)
     _snake.push_front(led);
 
     for (uint8_t i = 1; i < start_size; i++){
-        // TODO check boundings for led
         led += _dir;
         _snake.push_back(led);
     }
 
 }
 
-void Snake::setDirection(Direction dir)
+void Snake::direction(Direction dir)
 {
     _dir = dir;
 }
@@ -48,17 +47,31 @@ bool Snake::step()
     _snake.pop_back();
     // create new head
     Led new_front = _snake.back() + _dir;
+
+    // check if snake already has new_front as element -> got caught
+    for (const Led& snake_element : _snake){
+        if (snake_element == new_front){
+            return false;
+        }
+    }
+
     _snake.push_front(new_front);
+    return true;
 }
 
 bool Snake::step(Direction dir)
 {
-    setDirection(dir);
-    step();
+    direction(dir);
+    return step();
 }
 const std::deque<Led>* Snake::snake() const
 {
     return &_snake;
+}
+
+size_t Snake::length()
+{
+    return _snake.size();
 }
 
 

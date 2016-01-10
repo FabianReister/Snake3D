@@ -2,19 +2,20 @@
 #define VECTOR_H
 
 #include <inttypes.h>
-#include "config.h"
-#include <limits>
-
-
 
 template <typename T1>
-struct Vector{
+struct Vector3D{
     T1 x,y,z;
 };
 
+template <typename T1>
+struct Vector2D{
+    T1 x,y;
+};
 
-template struct Vector<int8_t>;
-typedef Vector<int8_t> Direction;
+
+template struct Vector3D<int8_t>;
+typedef Vector3D<int8_t> Direction;
 
 
 

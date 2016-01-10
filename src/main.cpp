@@ -4,6 +4,7 @@
 #include "ledcube.h"
 #include "ticker.h"
 #include "config.h"
+#include "game.h"
 
 #include <stdio.h>
 #include <iostream>
@@ -14,6 +15,8 @@
 std::mutex mutex_i2c;
 I2C i2c;
 
+std::mutex mutex_game_status;
+GameStatus game_status = STARTED;
 
 nunchuck::Nunchuck<CONFIG.nunchuck_variant> _nunchuck(&i2c);
 
@@ -26,16 +29,49 @@ LedCube ledCube(&snake);
 //!
 //! \brief idle_loop updates what you can see (snake movement, ...)
 //!
-void slow_loop(){
-    std::cout << "running idle loop " << std::endl;
+bool slow_loop(){
 
-    // get new data from nunchuck (threadsafe)
-    mutex_i2c.lock();
-    _nunchuck.update();
-    mutex_i2c.unlock();
+    mutex_game_status.lock();
+    GameStatus status = game_status;
+    mutex_game_status.unlock();
 
-    const nunchuck::Data* data = _nunchuck.data();
+    if (status == RUNNING){
+        std::cout << "running idle loop " << std::endl;
 
+        // get new data from nunchuck (threadsafe)
+        mutex_i2c.lock();
+        _nunchuck.update();
+        mutex_i2c.unlock();
+
+        // calculate snake movement direction from nunchuck data
+        const nunchuck::Data* data = _nunchuck.data();
+        nunchuck::Direction xJoystickDirection = _nunchuck.getJoystickDirection(data->joystick.x);
+        nunchuck::Direction yJoystickDirection = _nunchuck.getJoystickDirection(data->joystick.y);
+
+        Direction dir = {0,0,0};
+        if (data->c_button == nunchuck::PRESSED){ // z minux
+            dir.z = -1;
+        }else if(data->z_button == nunchuck::PRESSED){
+            dir.z = 1;
+        }else if(xJoystickDirection != nunchuck::NONE){
+            dir.x = xJoystickDirection;
+        }else if(yJoystickDirection != nunchuck::NONE){
+            dir.y = yJoystickDirection;
+        }
+
+        // now update snake
+        mutex_snake.lock();
+
+        if( !snake.step(dir) ){
+            mutex_game_status.lock();
+            game_status = FINISHED;
+            mutex_game_status.unlock();
+        }
+        mutex_snake.unlock();
+
+    }else{
+        return false;
+    }
 
 }
 
@@ -44,12 +80,24 @@ void slow_loop(){
 //! \brief fast_loop is used for persistance of vision ,
 //! TODO do we really need this?? or only call ledcube member fctn?
 //!
-void fast_loop(){
-    std::cout << "running fast loop " << std::endl;
-    mutex_i2c.lock();
-    char slave = 0x52;
-    i2c.isConnected(&slave);
-    mutex_i2c.unlock();
+bool fast_loop(){
+
+    mutex_game_status.lock();
+    GameStatus status = game_status;
+    mutex_game_status.unlock();
+
+    if (status == RUNNING){
+
+        std::cout << "running fast loop " << std::endl;
+        mutex_i2c.lock();
+        char slave = 0x52;
+        i2c.isConnected(&slave);
+        mutex_i2c.unlock();
+
+        return true;
+    }else{
+        return false;
+    }
 }
 
 
@@ -64,6 +112,7 @@ bool init(){
 int main(int argc, char* argv[]){
 
     init();
+    game_status = RUNNING;
 
     Ticker slow_ticker(CONFIG.slow_loop_frequency);
     slow_ticker.attach(slow_loop);
@@ -73,8 +122,11 @@ int main(int argc, char* argv[]){
     fast_ticker.attach(fast_loop);
     fast_ticker.run();
 
-    while(1){}
+    // slow and fast ticker will run as long game is running, wait for threads to stop
+    slow_ticker.thread()->join();
+    fast_ticker.thread()->join();
 
+    printf("Snake length: %i \n", int(snake.length()));
 
     return 0;
 }

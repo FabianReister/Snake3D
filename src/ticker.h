@@ -11,12 +11,13 @@ class Ticker
 {
 public:
     Ticker(float frequency);
-    void attach(void (*fcn_ptr)());
+    void attach(bool (*fcn_ptr)());
     void run();
+    std::thread* thread(){return _thread;}
 private:
     std::chrono::duration<double, std::nano> _loop_duration;
 
-    void (*_fcn_ptr)() = nullptr;
+    bool (*_fcn_ptr)() = nullptr;
 
     std::thread* _thread;
 

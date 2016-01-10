@@ -13,10 +13,12 @@ class Snake
 {
 public:
     Snake(uint8_t start_size = 3);
-    void setDirection(Direction dir);
+    void direction(Direction dir);
     bool step();
     bool step(Direction dir);
     const std::deque<Led>* snake() const;
+
+    size_t length();
 
 private:
     // queues first element is snakes head

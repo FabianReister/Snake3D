@@ -4,7 +4,7 @@ Ticker::Ticker(float frequency) : _loop_duration(1000000000.0 / frequency) // lo
 {
 }
 
-void Ticker::attach(void (*fcn_ptr)())
+void Ticker::attach(bool (*fcn_ptr)())
 {
     _fcn_ptr = fcn_ptr;
 }
@@ -20,11 +20,12 @@ void Ticker::run()
 void Ticker::loop()
 {
     // while system ok
-    while(1){
+    bool ok = true;
+    while(ok){
         auto start = std::chrono::high_resolution_clock::now();
 
         // run attached callback function
-        _fcn_ptr();
+        ok = _fcn_ptr();
 
         // now get amount of time to wait
         auto elapsed = std::chrono::high_resolution_clock::now()-start;
@@ -34,5 +35,6 @@ void Ticker::loop()
 
         std::this_thread::sleep_for(sleep_duration);
     }
+
 }
 

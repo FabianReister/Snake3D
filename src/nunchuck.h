@@ -1,8 +1,8 @@
 #ifndef NUNCHUCK_H
 #define NUNCHUCK_H
 
+#include "vector.h"
 #include "i2c.h"
-
 #include <inttypes.h>
 
 namespace nunchuck{
@@ -18,16 +18,8 @@ enum ButtonState : bool{
 };
 
 struct Data{
-    struct xy{
-        unsigned char x,y;
-    };
-
-    struct xyz{
-        unsigned char x,y,z;
-    };
-
-    xy joystick;
-    xyz accelerometer;
+    Vector2D<uint8_t> joystick;
+    Vector3D<uint8_t> accelerometer;
     ButtonState c_button,z_button;
 };
 
@@ -50,7 +42,7 @@ public:
     bool update();
     const Data* data();
 
-    Direction getJoystickDirection(uint8_t joystick_value);
+    static Direction getJoystickDirection(uint8_t joystick_value);
 
 
 private:

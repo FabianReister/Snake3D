@@ -24,7 +24,7 @@ struct Led{
     }
 
     template <typename T2>
-    const Led operator+(const Vector<T2>& rhs) {
+    const Led operator+(const Vector3D<T2>& rhs) {
         Led shifted = { addWithBoundingsCheck(this->x, rhs.x),
                         addWithBoundingsCheck(this->y, rhs.y),
                         addWithBoundingsCheck(this->z, rhs.z)};
@@ -32,13 +32,13 @@ struct Led{
     }
 
     template <typename T2>
-    const Led& operator+=(const Vector<T2>& rhs){
+    const Led& operator+=(const Vector3D<T2>& rhs){
         *this = *this + rhs;
         return *this;
     }
 
     template <typename T2>
-    const Led operator-(const Vector<T2>& rhs){
+    const Led operator-(const Vector3D<T2>& rhs){
         Led shifted = { addWithBoundingsCheck(this->x,-rhs.x),
                         addWithBoundingsCheck(this->y,-rhs.y),
                         addWithBoundingsCheck(this->z,-rhs.z)};
@@ -46,7 +46,7 @@ struct Led{
     }
 
     template <typename T2>
-    const Led& operator-=(const Vector<T2>& rhs){
+    const Led& operator-=(const Vector3D<T2>& rhs){
         *this = *this - rhs;
         return *this;
     }
