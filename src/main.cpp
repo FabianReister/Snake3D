@@ -3,11 +3,12 @@
 #include "snake.h"
 #include "ledcube.h"
 #include "ticker.h"
+#include "config.h"
 
 #include <stdio.h>
 #include <iostream>
 
-extern const Config CONFIG;
+//extern const Config CONFIG;
 
 I2C i2c;
 nunchuck::Nunchuck<nunchuck::BLACK> _nunchuck(&i2c);
@@ -21,7 +22,7 @@ LedCube ledCube(&snake);
 //!
 //! \brief idle_loop updates what you can see (snake movement, ...)
 //!
-void idle_loop(){
+void slow_loop(){
     std::cout << "running idle loop " << std::endl;
 
 }
@@ -36,18 +37,25 @@ void fast_loop(){
 }
 
 
+bool init(){
+    i2c.init();
+    //nunchuck.isConnected();
+    ledCube.updateLedStates();
+
+}
 
 
 int main(int argc, char* argv[]){
 
-    //i2c.init();
-    //nunchuck.isConnected();
-    ledCube.updateLedStates();
+    init();
 
+    Ticker slow_ticker(CONFIG.slow_loop_frequency);
+    slow_ticker.attach(slow_loop);
+    slow_ticker.run();
 
-    Ticker ticker(CONFIG.idle_loop_frequency);
-    ticker.attach(idle_loop);
-    ticker.run();
+    Ticker fast_ticker(CONFIG.fast_loop_frequency);
+    fast_ticker.attach(fast_loop);
+    fast_ticker.run();
 
     while(1){}
 

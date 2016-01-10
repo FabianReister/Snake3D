@@ -12,14 +12,14 @@ struct Config{
     nunchuck::Variant nunchuck_variant;
     // run settings
     float fast_loop_frequency;
-    float idle_loop_frequency;
+    float slow_loop_frequency;
 };
 
 constexpr Config CONFIG{
     .cube_size = 8,
     .nunchuck_variant = nunchuck::BLACK,
     .fast_loop_frequency = 1000,
-    .idle_loop_frequency = 1
+    .slow_loop_frequency = 1
 };
 
 
