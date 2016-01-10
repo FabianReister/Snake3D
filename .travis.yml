@@ -9,7 +9,7 @@ compiler:
     - clang
 
 install:
-  - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
+  - export CXX="g++-4.8" CC="gcc-4.8"
 
 addons:
   apt:
@@ -21,7 +21,7 @@ addons:
       - clang
 
 script:
-    mkdir build && cd build && cmake .. && make && make check
+    mkdir build && cd build && cmake .. && make
 
 notifications:
     recipients:
