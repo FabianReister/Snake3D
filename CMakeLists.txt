@@ -13,6 +13,8 @@ add_executable(snake3d
  src/snake.cpp
  src/fruits.cpp
  src/ticker.cpp
+ src/ioexpander.cpp
+ src/mcp27013.cpp
 )
 # if cmake version 3.1
 #target_compile_features(snake3d PRIVATE cxx_range_for)

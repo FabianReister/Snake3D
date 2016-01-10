@@ -4,6 +4,9 @@
 #include <inttypes.h>
 #include "snake.h"
 #include "fruits.h"
+#include <assert.h>
+
+#include <bitset>
 
 
 class LedCube
@@ -11,11 +14,13 @@ class LedCube
 public:
     LedCube(const Snake* snake, const Fruits* fruits);
     bool updateLedStates();
-    void spin();
+    void spinOnce();
 private:
     const Snake* _snake;
     const Fruits* _fruits;
     bool _led_state[CONFIG.cube_size][CONFIG.cube_size][CONFIG.cube_size];
+
+    bool selectRow(uint8_t row);
 
 };
 

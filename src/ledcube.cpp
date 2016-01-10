@@ -26,3 +26,22 @@ bool LedCube::updateLedStates()
 
 
 }
+
+void LedCube::spinOnce()
+{
+    // if cube size is > 8 can't write
+    assert(CONFIG.cube_size <= 8);
+
+    for(uint16_t row = 0; row < CONFIG.cube_size; row++){
+        //selectRow(row);
+        for(uint16_t col = 0; col < CONFIG.cube_size; row++){
+            std::bitset<CONFIG.cube_size> bits;
+            for(uint16_t i = 0; i < CONFIG.cube_size; i++){
+                bits[i] = _led_state[i][col][row];
+            }
+            uint8_t data = bits.to_ulong();
+
+        }
+
+    }
+}

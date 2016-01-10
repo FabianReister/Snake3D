@@ -20,7 +20,7 @@ class I2C
 public:
     I2C();
     bool init();
-    bool isConnected(const char* slave_adress);
+    bool Connect(const char* slave_adress);
 
     bool Write(char* buf, unsigned int buf_length);
     bool Read(char* buf, unsigned int buf_length);

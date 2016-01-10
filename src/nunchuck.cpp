@@ -16,7 +16,7 @@ Nunchuck<variant>::Nunchuck(I2C* i2c) : _i2c(i2c)
 template <Variant variant>
 bool Nunchuck<variant>::isConnected()
 {
-    return _i2c->isConnected(&SLAVE_ADDRESS);
+    return _i2c->Connect(&SLAVE_ADDRESS);
 }
 
 

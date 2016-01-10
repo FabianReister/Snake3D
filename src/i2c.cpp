@@ -14,15 +14,15 @@ bool I2C::init()
     return true;
 }
 
-bool I2C::isConnected(const char *slave_adress)
+bool I2C::Connect(const char *slave_address)
 {
-    if (ioctl(_file, I2C_SLAVE, slave_adress) < 0) {
+    if (ioctl(_file, I2C_SLAVE, slave_address) < 0) {
         printf("Failed to acquire bus access and/or talk to slave.\n");
     }
 }
 
 bool I2C::Write(char *buf, unsigned int buf_length)
-{
+{    
     if ( write(_file,buf,buf_length) != 1) {
         /* ERROR HANDLING: i2c transaction failed */
         printf("Failed to write to the i2c bus.\n");

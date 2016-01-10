@@ -94,7 +94,7 @@ bool fast_loop(){
         std::cout << "running fast loop " << std::endl;
         mutex_i2c.lock();
         char slave = 0x52;
-        i2c.isConnected(&slave);
+        i2c.Connect(&slave);
         mutex_i2c.unlock();
 
         return true;
