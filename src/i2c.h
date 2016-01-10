@@ -12,6 +12,9 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
+#include <thread>
+#include <mutex>
+
 class I2C
 {
 public:
@@ -21,9 +24,11 @@ public:
 
     bool Write(char* buf, unsigned int buf_length);
     bool Read(char* buf, unsigned int buf_length);
+
 private:
     int _file;
-    const char* _filename = "/dev/i2c-2";
+    const char* _filename = "/dev/i2c-2";    
+
 };
 
 #endif // I2C_H

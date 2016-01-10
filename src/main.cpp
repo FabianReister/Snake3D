@@ -10,10 +10,14 @@
 
 //extern const Config CONFIG;
 
+
+std::mutex mutex_i2c;
 I2C i2c;
-nunchuck::Nunchuck<nunchuck::BLACK> _nunchuck(&i2c);
 
 
+nunchuck::Nunchuck<CONFIG.nunchuck_variant> _nunchuck(&i2c);
+
+std::mutex mutex_snake;
 Snake snake(10);
 LedCube ledCube(&snake);
 
@@ -25,6 +29,14 @@ LedCube ledCube(&snake);
 void slow_loop(){
     std::cout << "running idle loop " << std::endl;
 
+    // get new data from nunchuck (threadsafe)
+    mutex_i2c.lock();
+    _nunchuck.update();
+    mutex_i2c.unlock();
+
+    const nunchuck::Data* data = _nunchuck.data();
+
+
 }
 
 //------------------------------------------------------------------------------------
@@ -33,7 +45,11 @@ void slow_loop(){
 //! TODO do we really need this?? or only call ledcube member fctn?
 //!
 void fast_loop(){
-
+    std::cout << "running fast loop " << std::endl;
+    mutex_i2c.lock();
+    char slave = 0x52;
+    i2c.isConnected(&slave);
+    mutex_i2c.unlock();
 }
 
 

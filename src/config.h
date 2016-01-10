@@ -18,7 +18,7 @@ struct Config{
 constexpr Config CONFIG{
     .cube_size = 8,
     .nunchuck_variant = nunchuck::BLACK,
-    .fast_loop_frequency = 1000,
+    .fast_loop_frequency = 2, // max 700
     .slow_loop_frequency = 1
 };
 

@@ -16,7 +16,6 @@ bool I2C::init()
 
 bool I2C::isConnected(const char *slave_adress)
 {
-
     if (ioctl(_file, I2C_SLAVE, slave_adress) < 0) {
         printf("Failed to acquire bus access and/or talk to slave.\n");
     }
