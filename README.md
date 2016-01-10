@@ -1,6 +1,9 @@
 # Snake3D
+
+![Travis Build Status](https://travis-ci.org/FabianReister/Snake3D.svg?branch=master)
+
 Play Snake on a 8x8x8 LED Cube using a Wii Nunchuck. This project does not require a
-specific hardware, you only have to provide a I2C interface. Linux only. 
+specific hardware, you only have to provide a I2C interface. Linux only.
 
 
 
