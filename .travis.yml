@@ -1,0 +1,24 @@
+sudo:
+    - false
+
+language:
+    - cpp
+
+compiler:
+    - gcc
+
+before_install:
+    - sudo apt-get update
+
+script:
+    mkdir build && cd build && cmake .. && make && make check
+
+notifications:
+    recipients:
+        - fabian.reister92@gmail.com
+    email:
+        on_success: always
+        on_failure: always
+
+os:
+    - linux
