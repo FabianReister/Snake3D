@@ -4,14 +4,13 @@
 #include "ledcube.h"
 #include "ticker.h"
 
-#include <thread>
 #include <stdio.h>
 #include <iostream>
 
 extern const Config CONFIG;
 
 I2C i2c;
-Nunchuck<NUNCHUCK_BLACK> nunchuck(&i2c);
+nunchuck::Nunchuck<nunchuck::BLACK> _nunchuck(&i2c);
 
 
 Snake snake(10);
@@ -19,13 +18,19 @@ LedCube ledCube(&snake);
 
 //------------------------------------------------------------------------------------
 
+//!
+//! \brief idle_loop updates what you can see (snake movement, ...)
+//!
 void idle_loop(){
     std::cout << "running idle loop " << std::endl;
 
 }
 
 //------------------------------------------------------------------------------------
-
+//!
+//! \brief fast_loop is used for persistance of vision ,
+//! TODO do we really need this?? or only call ledcube member fctn?
+//!
 void fast_loop(){
 
 }

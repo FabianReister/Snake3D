@@ -1,31 +1,28 @@
 #include "nunchuck.h"
 
-// base address
-const static char NUNCHUCK_ADDRESS = 0x52;
-// registers
-const static char REG_JOYSTICK_X   = 0x00;
-const static char REG_JOYSTICK_Y   = 0x01;
-const static char REG_ACC_X        = 0x02;
-const static char REG_ACC_Y        = 0x03;
-const static char REG_ACC_Z        = 0x04;
-const static char REG_MIXED        = 0x05;
+namespace nunchuck {
 
-template <NunchuckVariant variant>
+// base address
+template <Variant variant>
+const char Nunchuck<variant>::SLAVE_ADDRESS;
+
+
+template <Variant variant>
 Nunchuck<variant>::Nunchuck(I2C* i2c) : _i2c(i2c)
 {
 }
 
 
-template <NunchuckVariant variant>
+template <Variant variant>
 bool Nunchuck<variant>::isConnected()
 {
-    return _i2c->isConnected(&NUNCHUCK_ADDRESS);
+    return _i2c->isConnected(&SLAVE_ADDRESS);
 }
 
 
 
 template <>
-bool Nunchuck<NUNCHUCK_WHITE>::init()
+bool Nunchuck<WHITE>::init()
 {
     if (!isConnected()){
         return false;
@@ -46,7 +43,7 @@ bool Nunchuck<NUNCHUCK_WHITE>::init()
 }
 
 template <>
-bool Nunchuck<NUNCHUCK_BLACK>::init()
+bool Nunchuck<BLACK>::init()
 {
     if (!isConnected()){
         return false;
@@ -66,5 +63,7 @@ bool Nunchuck<NUNCHUCK_BLACK>::init()
 }
 
 
-template class Nunchuck<NUNCHUCK_BLACK>;
-template class Nunchuck<NUNCHUCK_WHITE>;
+template class Nunchuck<BLACK>;
+template class Nunchuck<WHITE>;
+
+}
