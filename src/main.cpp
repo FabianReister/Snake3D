@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <iostream>
 
-extern const Config config;
+extern const Config CONFIG;
 
 I2C i2c;
 Nunchuck<NUNCHUCK_BLACK> nunchuck(&i2c);
