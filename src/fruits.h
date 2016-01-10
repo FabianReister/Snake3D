@@ -20,6 +20,8 @@ public:
     void remove(Led* fruit);
     //setter
     void snake(const Snake* snake){_snake = snake;}
+    //getter
+    const std::vector<Led>* fruits() const {return &_fruits;}
 private:
     const Snake* _snake;
     std::vector<Led> _fruits;

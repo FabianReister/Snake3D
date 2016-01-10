@@ -23,7 +23,9 @@ bool LedCube::updateLedStates()
     }
 
     // set led ON for fruits
-
+    for(const Led& led : *(_fruits->fruits())){
+        _led_state[led.x][led.y][led.z] = true;
+    }
 
 }
 
@@ -34,7 +36,7 @@ void LedCube::spinOnce()
 
     for(uint16_t row = 0; row < CONFIG.cube_size; row++){
         //selectRow(row);
-        for(uint16_t col = 0; col < CONFIG.cube_size; row++){
+        for(uint16_t col = 0; col < CONFIG.cube_size; col++){
             std::bitset<CONFIG.cube_size> bits;
             for(uint16_t i = 0; i < CONFIG.cube_size; i++){
                 bits[i] = _led_state[i][col][row];

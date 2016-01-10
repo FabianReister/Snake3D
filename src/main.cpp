@@ -25,6 +25,7 @@ nunchuck::Nunchuck<CONFIG.nunchuck_variant> _nunchuck(&i2c);
 std::mutex mutex_snake;
 Fruits fruits;
 Snake snake(&fruits);
+std::mutex mutex_led_cube;
 LedCube ledCube(&snake, &fruits);
 
 //------------------------------------------------------------------------------------
@@ -70,6 +71,13 @@ bool slow_loop(){
             game_status = FINISHED;
             mutex_game_status.unlock();
         }
+
+        mutex_led_cube.lock();
+
+        // "redraw" led cube
+        ledCube.updateLedStates();
+
+        mutex_led_cube.unlock();
         mutex_snake.unlock();
 
     }else{
@@ -81,25 +89,28 @@ bool slow_loop(){
 //------------------------------------------------------------------------------------
 //!
 //! \brief fast_loop is used for persistance of vision ,
-//! TODO do we really need this?? or only call ledcube member fctn?
 //!
-bool fast_loop(){
+void fast_loop(){
 
-    mutex_game_status.lock();
-    GameStatus status = game_status;
-    mutex_game_status.unlock();
+    while(1){
+        mutex_game_status.lock();
+        GameStatus status = game_status;
+        mutex_game_status.unlock();
 
-    if (status == RUNNING){
+        if (status == RUNNING){
 
-        std::cout << "running fast loop " << std::endl;
-        mutex_i2c.lock();
-        char slave = 0x52;
-        i2c.Connect(&slave);
-        mutex_i2c.unlock();
+            std::cout << "running fast loop " << std::endl;
+            mutex_i2c.lock();
+            mutex_led_cube.lock();
 
-        return true;
-    }else{
-        return false;
+            ledCube.spinOnce();
+
+            mutex_led_cube.unlock();
+            mutex_i2c.unlock();
+
+        }else{
+            return;
+        }
     }
 }
 
@@ -121,23 +132,22 @@ bool init(){
 
 int main(int argc, char* argv[]){
 
-    if (init()){
+    if (init() || 1){
         game_status = RUNNING;
     }else{
-        return 1;
+        // TODO uncomment this
+        //return 1;
     }
 
     Ticker slow_ticker(CONFIG.slow_loop_frequency);
     slow_ticker.attach(slow_loop);
     slow_ticker.run();
 
-    Ticker fast_ticker(CONFIG.fast_loop_frequency);
-    fast_ticker.attach(fast_loop);
-    fast_ticker.run();
+    std::thread fast_thread(fast_loop);
 
     // slow and fast ticker will run as long game is running, wait for threads to stop
     slow_ticker.thread()->join();
-    fast_ticker.thread()->join();
+    fast_thread.join();
 
     printf("Snake length: %i \n", int(snake.length()));
 
