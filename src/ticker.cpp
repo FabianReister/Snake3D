@@ -1,6 +1,6 @@
 #include "ticker.h"
 
-Ticker::Ticker(float frequency) : _loop_duration(1000000000.0 / frequency)
+Ticker::Ticker(float frequency) : _loop_duration(1000000000.0 / frequency) // loop_dur is in nano seconds
 {
 }
 

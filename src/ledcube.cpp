@@ -9,9 +9,9 @@ LedCube::LedCube(const Snake *snake) : _snake(snake)
 bool LedCube::updateLedStates()
 {
     // set everything to zero
-    for (uint8_t x = 0; x < CUBE_SIZE; x++){
-        for (uint8_t y = 0; y < CUBE_SIZE; y++){
-            for (uint8_t z = 0; z < CUBE_SIZE; z++){
+    for (uint8_t x = 0; x < CONFIG.cube_size; x++){
+        for (uint8_t y = 0; y < CONFIG.cube_size; y++){
+            for (uint8_t z = 0; z < CONFIG.cube_size; z++){
                 _led_state[x][y][z] = false;
             }
         }

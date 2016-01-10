@@ -24,9 +24,9 @@ Snake::Snake(uint8_t start_size)
     }
 
     // init snake somewhere but not in the outher 2 spheres
-    Led led = { uint8_t(rand() % (CUBE_SIZE-2) + 2),
-                uint8_t(rand() % (CUBE_SIZE-2) + 2),
-                uint8_t(rand() % (CUBE_SIZE-2) + 2)};
+    Led led = { uint8_t(rand() % (CONFIG.cube_size-2) + 2),
+                uint8_t(rand() % (CONFIG.cube_size-2) + 2),
+                uint8_t(rand() % (CONFIG.cube_size-2) + 2)};
     _snake.push_front(led);
 
     for (uint8_t i = 1; i < start_size; i++){

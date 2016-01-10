@@ -55,12 +55,12 @@ struct Led{
     uint8_t addWithBoundingsCheck(uint8_t a, T2 b){
         float sum = float(a)+float(b);
 
-        if ( sum > CUBE_SIZE - 1){
+        if ( sum > CONFIG.cube_size - 1){
             //sum is positive
-            return sum - CUBE_SIZE;
+            return sum - CONFIG.cube_size;
         }else if (sum < 0){
             //sum is negative
-            return CUBE_SIZE + sum + 1;
+            return CONFIG.cube_size + sum + 1;
         }else{
             return sum;
         }

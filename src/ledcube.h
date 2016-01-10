@@ -12,7 +12,7 @@ public:
     bool updateLedStates();
 private:
     const Snake* _snake;
-    bool _led_state[CUBE_SIZE][CUBE_SIZE][CUBE_SIZE];
+    bool _led_state[CONFIG.cube_size][CONFIG.cube_size][CONFIG.cube_size];
 
 };
 

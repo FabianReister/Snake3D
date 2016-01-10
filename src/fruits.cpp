@@ -10,9 +10,9 @@ void Fruits::generateFruit()
     Led fruit = {0,0,0};
 
     while(!fruit_set){
-        fruit = { uint8_t(rand() % (CUBE_SIZE-1)),
-                  uint8_t(rand() % (CUBE_SIZE-1)),
-                  uint8_t(rand() % (CUBE_SIZE-1))
+        fruit = { uint8_t(rand() % (CONFIG.cube_size-1)),
+                  uint8_t(rand() % (CONFIG.cube_size-1)),
+                  uint8_t(rand() % (CONFIG.cube_size-1))
                 };
         fruit_set = true;
         for (const Led& snake_led : *(_snake->snake())){
