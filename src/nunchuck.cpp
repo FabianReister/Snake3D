@@ -39,6 +39,20 @@ const Data *Nunchuck<variant>::data()
 }
 
 
+template <Variant variant>
+Direction Nunchuck<variant>::getJoystickDirection(uint8_t joystick_value)
+{
+    // 127 is 255/2 -> mid
+    if (joystick_value < 127 - HYSTERESIS){
+        return NEGATIVE;
+    }else if(joystick_value > 127 + HYSTERESIS){
+        return POSITIVE;
+    }else{
+        return NONE;
+    }
+}
+
+
 
 template <>
 bool Nunchuck<WHITE>::init()

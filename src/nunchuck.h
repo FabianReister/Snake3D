@@ -31,6 +31,12 @@ struct Data{
     ButtonState c_button,z_button;
 };
 
+enum Direction: int8_t{
+    NEGATIVE = -1,
+    POSITIVE = 1,
+    NONE = 0
+};
+
 
 template <Variant variant>
 class Nunchuck
@@ -44,7 +50,7 @@ public:
     bool update();
     const Data* data();
 
-
+    Direction getJoystickDirection(uint8_t joystick_value);
 
 
 private:
@@ -65,6 +71,9 @@ private:
 
     // base address
     const static char SLAVE_ADDRESS = 0x52;
+
+    // hysteresis for joysticks
+    const static uint8_t HYSTERESIS = 40;
 };
 
 }
