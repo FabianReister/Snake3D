@@ -3,6 +3,7 @@
 
 #include "config.h"
 #include <inttypes.h>
+#include <assert.h>
 
 #include "vector.h"
 
@@ -64,6 +65,15 @@ struct Led{
         }else{
             return sum;
         }
+    }
+
+    static Led randomCreate(uint8_t start = 0, uint8_t end = CONFIG.cube_size-1){
+        assert(end < CONFIG.cube_size);
+        assert(start < end);
+        return { uint8_t(rand() % (end-start) + start),
+                    uint8_t(rand() % (end-start) + start),
+                    uint8_t(rand() % (end-start) + start)
+        };
     }
 
 };

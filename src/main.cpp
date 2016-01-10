@@ -105,11 +105,15 @@ bool fast_loop(){
 
 
 bool init(){
-
+    // init game structure
     fruits.snake(&snake);
 
+    // init bus devices
     i2c.init();
     //nunchuck.isConnected();
+
+
+    // build up
     ledCube.updateLedStates();
 
 }

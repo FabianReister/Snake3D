@@ -1,7 +1,7 @@
 #ifndef FRUITS_H
 #define FRUITS_H
 
-#include <deque>
+#include <vector>
 #include <assert.h>
 
 #include "led.h"
@@ -16,10 +16,13 @@ class Fruits
 public:
     Fruits();
     void generateFruit();
+    bool isFruit(const Led* led);
+    void remove(Led* fruit);
+    //setter
     void snake(const Snake* snake){_snake = snake;}
 private:
     const Snake* _snake;
-    std::deque<Led> _fruits;
+    std::vector<Led> _fruits;
 
 };
 
