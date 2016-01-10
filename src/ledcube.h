@@ -9,7 +9,7 @@ class LedCube
 {
 public:
     LedCube(const Snake* snake);
-    bool updateLeds();
+    bool updateLedStates();
 private:
     const Snake* _snake;
     bool _led_state[CUBE_SIZE][CUBE_SIZE][CUBE_SIZE];

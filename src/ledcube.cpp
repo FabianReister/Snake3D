@@ -6,7 +6,7 @@ LedCube::LedCube(const Snake *snake) : _snake(snake)
 
 }
 
-bool LedCube::updateLeds()
+bool LedCube::updateLedStates()
 {
     // set everything to zero
     for (uint8_t x = 0; x < CUBE_SIZE; x++){
