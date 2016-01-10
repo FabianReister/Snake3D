@@ -6,7 +6,6 @@ language:
 
 compiler:
     - gcc
-    - clang
 
 install:
   - export CXX="g++-4.8" CC="gcc-4.8"
@@ -18,7 +17,6 @@ addons:
     packages:
       - gcc-4.8
       - g++-4.8
-      - clang
 
 script:
     mkdir build && cd build && cmake .. && make
@@ -27,7 +25,7 @@ notifications:
     recipients:
         - fabian.reister92@gmail.com
     email:
-        on_success: always
+        on_success: never
         on_failure: always
 
 os:

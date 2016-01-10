@@ -14,7 +14,7 @@ Nunchuck<variant>::Nunchuck(I2C* i2c) : _i2c(i2c)
 
 
 template <Variant variant>
-bool Nunchuck<variant>::isConnected()
+inline bool Nunchuck<variant>::Connect()
 {
     return _i2c->Connect(&SLAVE_ADDRESS);
 }
@@ -57,7 +57,7 @@ Direction Nunchuck<variant>::getJoystickDirection(uint8_t joystick_value)
 template <>
 bool Nunchuck<WHITE>::init()
 {
-    if (!isConnected()){
+    if (!Connect()){
         return false;
     }
     // 0x40, 0x00
@@ -78,7 +78,7 @@ bool Nunchuck<WHITE>::init()
 template <>
 bool Nunchuck<BLACK>::init()
 {
-    if (!isConnected()){
+    if (!Connect()){
         return false;
     }
     // send 0xF0, 0x55

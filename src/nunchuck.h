@@ -35,7 +35,7 @@ class Nunchuck
 {
 public:
     Nunchuck(I2C* i2c);
-    bool isConnected();
+    bool Connect();
     bool init();
 
 
