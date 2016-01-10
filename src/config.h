@@ -10,15 +10,15 @@ struct Config{
     uint8_t cube_size;
     // hardware
     nunchuck::Variant nunchuck_variant;
-    // run settings
-    float fast_loop_frequency;
+    uint8_t io_expander_channel_count;
+    // run settings;
     float slow_loop_frequency;
 };
 
 constexpr Config CONFIG{
     .cube_size = 8,
     .nunchuck_variant = nunchuck::BLACK,
-    .fast_loop_frequency = 2, // max 700
+    .io_expander_channel_count = 2,
     .slow_loop_frequency = 1
 };
 

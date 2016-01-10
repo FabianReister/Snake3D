@@ -1,9 +1,12 @@
 #include "ledcube.h"
 
 
-LedCube::LedCube(const Snake *snake, const Fruits* fruits) : _snake(snake), _fruits(fruits)
+LedCube::LedCube(I2C* i2c, const Snake *snake, const Fruits* fruits) : _i2c(i2c), _snake(snake), _fruits(fruits)
 {
-
+    for (uint8_t i = 0; i < CONFIG.cube_size/CONFIG.io_expander_channel_count; i++){
+        // TODO use template IoExpander<MCP27013> and move to config
+        _ioexpander[i] = new MCP27013(_i2c, i);
+    }
 }
 
 bool LedCube::updateLedStates()
@@ -40,10 +43,14 @@ void LedCube::spinOnce()
             std::bitset<CONFIG.cube_size> bits;
             for(uint16_t i = 0; i < CONFIG.cube_size; i++){
                 bits[i] = _led_state[i][col][row];
+                uint8_t data = bits.to_ulong();
+                _ioexpander[i/CONFIG.io_expander_channel_count]->setOutputs(data,i%CONFIG.io_expander_channel_count);
             }
-            uint8_t data = bits.to_ulong();
 
+
+            // TODO adjust this
+            std::this_thread::sleep_for(std::chrono::duration<double, std::milli>(500));
         }
-
     }
+
 }

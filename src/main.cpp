@@ -26,7 +26,7 @@ std::mutex mutex_snake;
 Fruits fruits;
 Snake snake(&fruits);
 std::mutex mutex_led_cube;
-LedCube ledCube(&snake, &fruits);
+LedCube ledCube(&i2c, &snake, &fruits);
 
 //------------------------------------------------------------------------------------
 
