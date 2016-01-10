@@ -1,6 +1,6 @@
 #include "snake.h"
 
-Snake::Snake(uint8_t start_size)
+Snake::Snake(Fruits* fruits,uint8_t start_size) : _fruits(fruits)
 {
     _dir = {0,0,0};
     // init snake with

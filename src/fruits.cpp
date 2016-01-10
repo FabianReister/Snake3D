@@ -1,11 +1,13 @@
 #include "fruits.h"
 
-Fruits::Fruits(const Snake* snake) : _snake(snake)
+Fruits::Fruits()
 {
 }
 
 void Fruits::generateFruit()
 {
+    assert(_snake != nullptr);
+
     bool fruit_set = false;
     Led fruit = {0,0,0};
 

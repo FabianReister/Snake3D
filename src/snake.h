@@ -7,12 +7,14 @@
 #include "vector.h"
 #include "config.h"
 #include "led.h"
+#include "fruits.h"
 
+class Fruits;
 
 class Snake
 {
 public:
-    Snake(uint8_t start_size = 3);
+    Snake(Fruits* fruits, uint8_t start_size = 3);
     void direction(Direction dir);
     bool step();
     bool step(Direction dir);
@@ -21,6 +23,7 @@ public:
     size_t length();
 
 private:
+    Fruits* _fruits;
     // queues first element is snakes head
     std::deque<Led> _snake;
     Direction _dir;

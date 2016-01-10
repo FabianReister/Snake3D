@@ -5,6 +5,7 @@
 #include "ticker.h"
 #include "config.h"
 #include "game.h"
+#include "fruits.h"
 
 #include <stdio.h>
 #include <iostream>
@@ -20,9 +21,11 @@ GameStatus game_status = STARTED;
 
 nunchuck::Nunchuck<CONFIG.nunchuck_variant> _nunchuck(&i2c);
 
+// snake
 std::mutex mutex_snake;
-Snake snake(10);
-LedCube ledCube(&snake);
+Fruits fruits;
+Snake snake(&fruits);
+LedCube ledCube(&snake, &fruits);
 
 //------------------------------------------------------------------------------------
 
@@ -102,6 +105,9 @@ bool fast_loop(){
 
 
 bool init(){
+
+    fruits.snake(&snake);
+
     i2c.init();
     //nunchuck.isConnected();
     ledCube.updateLedStates();
@@ -111,8 +117,11 @@ bool init(){
 
 int main(int argc, char* argv[]){
 
-    init();
-    game_status = RUNNING;
+    if (init()){
+        game_status = RUNNING;
+    }else{
+        return 1;
+    }
 
     Ticker slow_ticker(CONFIG.slow_loop_frequency);
     slow_ticker.attach(slow_loop);
