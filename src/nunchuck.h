@@ -49,7 +49,7 @@ public:
 
 private:
     I2C* _i2c;
-    unsigned char _raw_data[6] = {0};
+    char _raw_data[6] = {0};
 
     Data _data = {};
 
