@@ -17,7 +17,7 @@ public:
     Fruits();
     void generateFruit();
     bool isFruit(const Led* led);
-    void remove(Led* fruit);
+    void remove(const Led* fruit);
     //setter
     void snake(const Snake* snake){_snake = snake;}
     //getter

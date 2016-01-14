@@ -36,7 +36,7 @@ bool Fruits::isFruit(const Led *led)
     return false;
 }
 
-void Fruits::remove(Led *fruit)
+void Fruits::remove(const Led *fruit)
 {
     _fruits.erase(std::remove(_fruits.begin(), _fruits.end(), *fruit), _fruits.end());
 }
