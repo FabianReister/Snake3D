@@ -32,14 +32,13 @@ bool Nunchuck<variant>::update()
 template <Variant variant>
 const Data *Nunchuck<variant>::data()
 {
-    printf("raw data: %X, %X, %X, %X, %X, %X", _raw_data[0], _raw_data[1], _raw_data[2], _raw_data[3], _raw_data[4], _raw_data[5]);
-    _data.joystick.x = _raw_data[0];
-    _data.joystick.y = _raw_data[1];
-    _data.accelerometer.x = uint16_t(_raw_data[2]) << 2 | (_raw_data[5] & 0b00001100);
-    _data.accelerometer.y = uint16_t(_raw_data[3]) << 2 | (_raw_data[5] & 0b00110000);
-    _data.accelerometer.z = uint16_t(_raw_data[4]) << 2 | (_raw_data[5] & 0b11000000);
-    _data.z_button = static_cast<ButtonState>(bool(_raw_data[5] & 0b1));
-    _data.c_button = static_cast<ButtonState>(bool(_raw_data[MIXED] & 0b10));
+    _data.joystick.x = _raw_data[JOYSTICK_X];
+    _data.joystick.y = _raw_data[JOYSTICK_Y];
+    _data.accelerometer.x = uint16_t(_raw_data[ACCELEROMETER_X]) << 2 | (_raw_data[MIXED] & 0b00001100);
+    _data.accelerometer.y = uint16_t(_raw_data[ACCELEROMETER_Y]) << 2 | (_raw_data[MIXED] & 0b00110000);
+    _data.accelerometer.z = uint16_t(_raw_data[ACCELEROMETER_Z]) << 2 | (_raw_data[MIXED] & 0b11000000);
+    _data.z_button = static_cast<ButtonState>(_raw_data[MIXED] & 0b1);
+    _data.c_button = static_cast<ButtonState>(_raw_data[MIXED] & 0b10);
     return &_data;
 }
 
