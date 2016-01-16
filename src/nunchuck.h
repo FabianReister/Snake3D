@@ -53,12 +53,12 @@ private:
 
     enum RegAddress : uint8_t{
         // registers
-        JOYSTICK_X   = 0x00,
-        JOYSTICK_Y   = 0x01,
-        ACCELEROMETER_X        = 0x02,
-        ACCELEROMETER_Y        = 0x03,
-        ACCELEROMETER_Z        = 0x04,
-        MIXED        = 0x05
+        JOYSTICK_X              = 0x00,
+        JOYSTICK_Y              = 0x01,
+        ACCELEROMETER_X         = 0x02,
+        ACCELEROMETER_Y         = 0x03,
+        ACCELEROMETER_Z         = 0x04,
+        MIXED                   = 0x05
     };
 
     // base address
