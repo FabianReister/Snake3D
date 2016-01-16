@@ -19,7 +19,7 @@ enum ButtonState : bool{
 
 struct Data{
     Vector2D<uint8_t> joystick;
-    Vector3D<uint8_t> accelerometer;
+    Vector3D<uint16_t> accelerometer;
     ButtonState c_button,z_button;
 };
 
@@ -47,22 +47,22 @@ public:
 
 private:
     I2C* _i2c;
-    char _raw_data[6] = {0};
+    uint8_t _raw_data[6] = {0};
 
     Data _data = {};
 
     enum RegAddress : uint8_t{
         // registers
-        JOYSTICK_X              = 0x00,
-        JOYSTICK_Y              = 0x01,
-        ACCELEROMETER_X         = 0x02,
-        ACCELEROMETER_Y         = 0x03,
-        ACCELEROMETER_Z         = 0x04,
-        MIXED                   = 0x05
+        JOYSTICK_X              = 0,
+        JOYSTICK_Y              = 1,
+        ACCELEROMETER_X         = 2,
+        ACCELEROMETER_Y         = 3,
+        ACCELEROMETER_Z         = 4,
+        MIXED                   = 5
     };
 
     // base address
-    const static char SLAVE_ADDRESS = 0x52;
+    const static uint8_t SLAVE_ADDRESS = 0x52;
 
     // hysteresis for joysticks
     const static uint8_t HYSTERESIS = 40;

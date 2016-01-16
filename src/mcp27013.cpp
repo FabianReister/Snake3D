@@ -5,15 +5,15 @@ MCP27013::MCP27013(I2C* i2c, uint8_t address_msk) : IoExpander(i2c, SLAVE_BASE_A
 
 bool MCP27013::init()
 {
-    _i2c->Connect(&SLAVE_ADDRESS);
+    _i2c->Connect(SLAVE_ADDRESS);
     // set pins as output
-    char buf[] = {IODIRA, char(0xFF), char(0xFF)};
+    uint8_t buf[] = {IODIRA, 0xFF, 0xFF};
     _i2c->Write(buf, 3);
 }
 
 bool MCP27013::setOutputs(uint8_t data, uint8_t channel)
 {
-    _i2c->Connect(&SLAVE_ADDRESS);
-    char buf[] = {char(GPIOA+channel),char(data)};
+    _i2c->Connect(SLAVE_ADDRESS);
+    uint8_t buf[] = {GPIOA+channel,data};
     _i2c->Write(buf,2);
 }

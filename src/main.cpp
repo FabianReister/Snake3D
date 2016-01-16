@@ -10,6 +10,9 @@
 #include <stdio.h>
 #include <iostream>
 
+#include <mutex>
+#include <thread>
+
 //extern const Config CONFIG;
 
 
@@ -52,6 +55,8 @@ bool slow_loop(){
         nunchuck::Direction xJoystickDirection = _nunchuck.getJoystickDirection(data->joystick.x);
         nunchuck::Direction yJoystickDirection = _nunchuck.getJoystickDirection(data->joystick.y);
 
+	printf("Joystick raw data: %X", _nunchuck.data()->joystick.x);
+
         Direction dir = {0,0,0};
         if (data->c_button == nunchuck::PRESSED){ // z minux
             dir.z = -1;
@@ -63,12 +68,14 @@ bool slow_loop(){
             dir.y = yJoystickDirection;
         }
 
+	printf("Direction x=%i, y=%i, z=%i \n", dir.x, dir.y, dir.z);
+
         // now update snake
         mutex_snake.lock();
 
         if( !snake.step(dir) ){
             mutex_game_status.lock();
-            game_status = FINISHED;
+   //         game_status = FINISHED;
             mutex_game_status.unlock();
         }
 
@@ -80,6 +87,7 @@ bool slow_loop(){
         mutex_led_cube.unlock();
         mutex_snake.unlock();
 
+	return true;
     }else{
         return false;
     }
@@ -127,6 +135,7 @@ bool init(){
     // build up
     ledCube.updateLedStates();
 
+    _nunchuck.init();
 }
 
 
@@ -136,18 +145,19 @@ int main(int argc, char* argv[]){
         game_status = RUNNING;
     }else{
         // TODO uncomment this
-        //return 1;
+        printf("Could not init I2C bus");
+	return 1;
     }
 
     Ticker slow_ticker(CONFIG.slow_loop_frequency);
     slow_ticker.attach(slow_loop);
     slow_ticker.run();
 
-    std::thread fast_thread(fast_loop);
+//    std::thread fast_thread(fast_loop);
 
     // slow and fast ticker will run as long game is running, wait for threads to stop
     slow_ticker.thread()->join();
-    fast_thread.join();
+//    fast_thread.join();
 
     printf("Snake length: %i \n", int(snake.length()));
 

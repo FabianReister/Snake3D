@@ -15,7 +15,7 @@ public:
     virtual bool setOutputs(uint8_t data, uint8_t channel = 0){}
 protected:
     I2C* _i2c;
-    const char SLAVE_ADDRESS;
+    const unsigned char SLAVE_ADDRESS;
 };
 
 #endif // IOEXPANDER_H

@@ -14,10 +14,10 @@ struct Vector2D{
 };
 
 
-template struct Vector3D<int8_t>;
-typedef Vector3D<int8_t> Direction;
+//template struct Vector3D<int8_t>;
+//typedef Vector3D<int8_t> Direction;
 
-
+using Direction = Vector3D<int8_t>;
 
 
 #endif // VECTOR_H

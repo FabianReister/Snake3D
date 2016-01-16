@@ -8,6 +8,8 @@
 #include "config.h"
 
 #include <bitset>
+#include <thread>
+
 #include "mcp27013.h"
 
 class LedCube

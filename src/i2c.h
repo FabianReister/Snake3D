@@ -11,23 +11,21 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-
-#include <thread>
-#include <mutex>
+#include <inttypes.h>
 
 class I2C
 {
 public:
     I2C();
     bool init();
-    bool Connect(const char* slave_adress);
+    bool Connect(uint8_t slave_adress);
 
-    bool Write(char* buf, unsigned int buf_length);
-    bool Read(char* buf, unsigned int buf_length);
+    bool Write(uint8_t* buf, uint8_t buf_length);
+    bool Read(uint8_t* buf, uint8_t buf_length);
 
 private:
     int _file;
-    const char* _filename = "/dev/i2c-2";    
+    const char* _filename = "/dev/i2c-1";    
 
 };
 

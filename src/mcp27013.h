@@ -10,7 +10,7 @@ public:
     bool init();
     bool setOutputs(uint8_t data, uint8_t channel);
 private:
-    enum Register : char{
+    enum Register : uint8_t{
         IODIRA = 0x00,
         IODIRB = 0x01,
         GPIOA = 0x12,
