@@ -37,8 +37,8 @@ const Data *Nunchuck<variant>::data()
     _data.accelerometer.x = uint16_t(_raw_data[ACCELEROMETER_X]) << 2 | (_raw_data[MIXED] & 0b00001100);
     _data.accelerometer.y = uint16_t(_raw_data[ACCELEROMETER_Y]) << 2 | (_raw_data[MIXED] & 0b00110000);
     _data.accelerometer.z = uint16_t(_raw_data[ACCELEROMETER_Z]) << 2 | (_raw_data[MIXED] & 0b11000000);
-    _data.z_button = static_cast<ButtonState>(_raw_data[MIXED] & 0b1);
-    _data.c_button = static_cast<ButtonState>(_raw_data[MIXED] & 0b10);
+    _data.z_button = static_cast<ButtonState>(bool(_raw_data[MIXED] & 0b1));
+    _data.c_button = static_cast<ButtonState>(bool(_raw_data[MIXED] & 0b10));
     return &_data;
 }
 
