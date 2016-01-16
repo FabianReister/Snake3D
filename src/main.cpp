@@ -136,6 +136,8 @@ bool init(){
     ledCube.updateLedStates();
 
     _nunchuck.init();
+
+    return true;
 }
 
 

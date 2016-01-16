@@ -87,13 +87,13 @@ bool Nunchuck<BLACK>::init()
         return false;
     }
     // send 0xF0, 0x55
-    unsigned char buf1[] = { char(0xF0), 0x55};
+    uint8_t buf1[] = { 0xF0, 0x55};
     if (!_i2c->Write(buf1, 2)){
         return false;
     }
     sleep(0.1);
     // send 0xFB, 0x00
-    unsigned char buf2[] = { char(0xFB), 0x00};
+    uint8_t buf2[] = { 0xFB, 0x00};
     if (!_i2c->Write(buf2, 2)){
         return false;
     }

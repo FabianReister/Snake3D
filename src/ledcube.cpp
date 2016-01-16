@@ -30,6 +30,8 @@ bool LedCube::updateLedStates()
         _led_state[led.x][led.y][led.z] = true;
     }
 
+    return true;
+
 }
 
 void LedCube::spinOnce()

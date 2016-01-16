@@ -11,8 +11,8 @@ class IoExpander
 public:
     IoExpander(I2C* i2c, char slave_address);
     //setup eg pins as outputs
-    virtual bool init(){}
-    virtual bool setOutputs(uint8_t data, uint8_t channel = 0){}
+    virtual bool init(){return false;}
+    virtual bool setOutputs(uint8_t data, uint8_t channel = 0){return false;}
 protected:
     I2C* _i2c;
     const unsigned char SLAVE_ADDRESS;
