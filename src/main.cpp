@@ -55,8 +55,6 @@ bool slow_loop(){
         nunchuck::Direction xJoystickDirection = _nunchuck.getJoystickDirection(data->joystick.x);
         nunchuck::Direction yJoystickDirection = _nunchuck.getJoystickDirection(data->joystick.y);
 
-	printf("Joystick raw data: %X", _nunchuck.data()->joystick.x);
-
         Direction dir = {0,0,0};
         if (data->c_button == nunchuck::PRESSED){ // z minux
             dir.z = -1;
@@ -68,7 +66,7 @@ bool slow_loop(){
             dir.y = yJoystickDirection;
         }
 
-	printf("Direction x=%i, y=%i, z=%i \n", dir.x, dir.y, dir.z);
+        printf("Direction x=%i, y=%i, z=%i \n", dir.x, dir.y, dir.z);
 
         // now update snake
         mutex_snake.lock();
