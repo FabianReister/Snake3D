@@ -3,6 +3,8 @@ project (Snake3D)
 
 add_subdirectory(src)
 
+add_subdirectory(sim)
+
 #include(${CMAKE_SOURCE_DIR}/cmake/External-Googletest.cmake)
 
 #add_subdirectory(test)

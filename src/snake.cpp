@@ -44,7 +44,7 @@ bool Snake::step()
     // remove snakes end
     _snake.pop_back();
     // create new head
-    Led new_front = _snake.back() + _dir;
+    Led new_front = _snake.front() + _dir;
 
     // check if snake already has new_front as element -> got caught
     for (const Led& snake_element : _snake){
