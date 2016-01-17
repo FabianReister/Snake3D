@@ -21,3 +21,8 @@ Open a terminal and cd into the Snake3D directory. To compile this code, execute
 
 To run, execute
 <code> ./build/src/snake3d</code> for now
+
+## Simulator
+
+There is also a simulator available that is a substitute for a led cube. Starting the simulator is quite simple. On your embedded device (with connected Wii Nunchuck), execute <code> ./build/sim/snake3dsim</code> for now.
+Then, on your desktop, open Blender (download from blender.org). client.py should be opened by default. Press button **Run script** and see the snake move based on the jockstick's state.
