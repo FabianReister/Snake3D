@@ -5,7 +5,7 @@ MCP27013::MCP27013(I2C* i2c, uint8_t address_msk) : IoExpander(i2c, SLAVE_BASE_A
 
 bool MCP27013::init()
 {
-    if (!_i2c->Connect(SLAVE_ADDRESS)){
+    if (!_i2c->connect(SLAVE_ADDRESS)){
         return false;
     }
     // set pins as output
@@ -16,7 +16,7 @@ bool MCP27013::init()
 
 bool MCP27013::setOutputs(uint8_t data, uint8_t channel)
 {
-    if (!_i2c->Connect(SLAVE_ADDRESS)){
+    if (!_i2c->connect(SLAVE_ADDRESS)){
         return false;
     }
     uint8_t buf[] = { static_cast<uint8_t>(GPIOA+channel),data};

@@ -1,12 +1,12 @@
 #include "i2c.h"
 
-I2C::I2C()
+I2C::I2C(const char* device) :_device(device)
 {
 }
 
 bool I2C::init()
 {
-    if ((_file = open(_filename, O_RDWR)) < 0) {
+    if ((_file = open(_device, O_RDWR)) < 0) {
         printf("Failed to open the i2c bus.\n");
         return false;
     }
@@ -14,7 +14,7 @@ bool I2C::init()
     return true;
 }
 
-bool I2C::Connect(uint8_t slave_address)
+bool I2C::connect(uint8_t slave_address)
 {
    if (ioctl(_file, I2C_SLAVE, slave_address) < 0) {
         printf("Failed to acquire bus access and/or talk to slave.\n");

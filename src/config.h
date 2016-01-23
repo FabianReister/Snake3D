@@ -13,13 +13,21 @@ struct Config{
     uint8_t io_expander_channel_count;
     // run settings;
     float slow_loop_frequency;
+    // i2c
+    char i2c_device[15];
 };
 
-constexpr Config CONFIG{
-    .cube_size = 8,
-    .nunchuck_variant = nunchuck::BLACK,
-    .io_expander_channel_count = 2,
-    .slow_loop_frequency = 1
+constexpr Config CONFIG = {
+    // cube size
+    8,
+    // nunchuck variant
+    nunchuck::BLACK,
+    //io expander channel count
+    2,
+    // slow loop frequency
+    1,
+    // i2c device name
+    "/dev/i2c-1"
 };
 
 

@@ -13,9 +13,6 @@
 #include <mutex>
 #include <thread>
 
-//extern const Config CONFIG;
-
-
 static std::mutex mutex_i2c;
 static std::mutex mutex_game_status;
 static std::mutex mutex_snake;
@@ -124,7 +121,7 @@ void fast_loop(){
 
 bool init(){
 
-    i2c = new I2C();
+    i2c = new I2C(CONFIG.i2c_device);
     _nunchuck = new nunchuck::Nunchuck<CONFIG.nunchuck_variant>(i2c);
     fruits = new Fruits();
     snake = new Snake(fruits);

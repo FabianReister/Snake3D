@@ -16,7 +16,7 @@ Nunchuck<variant>::Nunchuck(I2C* i2c) : _i2c(i2c)
 template <Variant variant>
 inline bool Nunchuck<variant>::Connect()
 {
-    return _i2c->Connect(SLAVE_ADDRESS);
+    return _i2c->connect(SLAVE_ADDRESS);
 }
 
 
@@ -34,10 +34,10 @@ const Data *Nunchuck<variant>::data()
 {
     _data.joystick.x = _raw_data[JOYSTICK_X];
     _data.joystick.y = _raw_data[JOYSTICK_Y];
-    // TODO fix these warnings
-    _data.accelerometer.x = uint16_t(_raw_data[ACCELEROMETER_X]) << 2 | (_raw_data[MIXED] & 0b00001100);
-    _data.accelerometer.y = uint16_t(_raw_data[ACCELEROMETER_Y]) << 2 | (_raw_data[MIXED] & 0b00110000);
-    _data.accelerometer.z = uint16_t(_raw_data[ACCELEROMETER_Z]) << 2 | (_raw_data[MIXED] & 0b11000000);
+    // TODO check if this really works. if not cast the first _raw_data[ACC...] to uint16_t
+    _data.accelerometer.x =static_cast<uint16_t>( _raw_data[ACCELEROMETER_X] << 2 | (_raw_data[MIXED] & 0b00001100));
+    _data.accelerometer.y = static_cast<uint16_t>(_raw_data[ACCELEROMETER_Y] << 2 | (_raw_data[MIXED] & 0b00110000));
+    _data.accelerometer.z = static_cast<uint16_t>(_raw_data[ACCELEROMETER_Z] << 2 | (_raw_data[MIXED] & 0b11000000));
     _data.z_button = static_cast<ButtonState>(bool(_raw_data[MIXED] & 0b1));
     _data.c_button = static_cast<ButtonState>(bool(_raw_data[MIXED] & 0b10));
     return &_data;

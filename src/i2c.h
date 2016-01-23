@@ -13,19 +13,20 @@
 #include <fcntl.h>
 #include <inttypes.h>
 
+
 class I2C
 {
 public:
-    I2C();
+    I2C(const char* device);
     bool init();
-    bool Connect(uint8_t slave_adress);
+    bool connect(uint8_t slave_adress);
 
     bool Write(uint8_t* buf, uint8_t buf_length);
     bool Read(uint8_t* buf, uint8_t buf_length);
 
 private:
     int _file;
-    const char* _filename = "/dev/i2c-1";    
+    const char* _device;
 
 };
 
