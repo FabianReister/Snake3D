@@ -6,7 +6,7 @@ Snake::Snake(Fruits* fruits,uint8_t start_size) : _fruits(fruits)
     // init snake with
     int dimension = rand() % 3 - 1;
     // direction should be either 1 or -1
-    int direction = rand() % 2;
+    int8_t direction = rand() % 2;
     if (direction == 0){
         direction = -1;
     }

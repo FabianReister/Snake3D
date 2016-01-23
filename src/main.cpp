@@ -149,7 +149,7 @@ bool init(){
 }
 
 
-int main(int argc, char* argv[]){
+int main(){ //int argc, char* argv[]){
 
     if (init() || 1){
         game_status = RUNNING;

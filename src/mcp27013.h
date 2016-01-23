@@ -9,6 +9,7 @@ public:
     MCP27013(I2C* i2c, uint8_t address_msk);
     bool init();
     bool setOutputs(uint8_t data, uint8_t channel);
+    virtual ~MCP27013();
 private:
     enum Register : uint8_t{
         IODIRA = 0x00,
@@ -16,7 +17,7 @@ private:
         GPIOA = 0x12,
         GOIOB = 0x13
     };
-    const uint8_t SLAVE_BASE_ADDRESS = 0x20;
+    constexpr static  uint8_t SLAVE_BASE_ADDRESS = 0x20;
 
 
 };

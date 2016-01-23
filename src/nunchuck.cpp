@@ -34,6 +34,7 @@ const Data *Nunchuck<variant>::data()
 {
     _data.joystick.x = _raw_data[JOYSTICK_X];
     _data.joystick.y = _raw_data[JOYSTICK_Y];
+    // TODO fix these warnings
     _data.accelerometer.x = uint16_t(_raw_data[ACCELEROMETER_X]) << 2 | (_raw_data[MIXED] & 0b00001100);
     _data.accelerometer.y = uint16_t(_raw_data[ACCELEROMETER_Y]) << 2 | (_raw_data[MIXED] & 0b00110000);
     _data.accelerometer.z = uint16_t(_raw_data[ACCELEROMETER_Z]) << 2 | (_raw_data[MIXED] & 0b11000000);
@@ -90,7 +91,7 @@ bool Nunchuck<BLACK>::init()
     if (!_i2c->Write(buf1, 2)){
         return false;
     }
-    sleep(0.1);
+    usleep(100000u);
     // send 0xFB, 0x00
     uint8_t buf2[] = { 0xFB, 0x00};
     if (!_i2c->Write(buf2, 2)){

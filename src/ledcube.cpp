@@ -45,7 +45,7 @@ void LedCube::spinOnce()
             std::bitset<CONFIG.cube_size> bits;
             for(uint16_t i = 0; i < CONFIG.cube_size; i++){
                 bits[i] = _led_state[i][col][row];
-                uint8_t data = bits.to_ulong();
+                uint8_t data = static_cast<uint8_t>(bits.to_ulong());
                 _ioexpander[i/CONFIG.io_expander_channel_count]->setOutputs(data,i%CONFIG.io_expander_channel_count);
             }
 

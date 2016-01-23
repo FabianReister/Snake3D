@@ -19,7 +19,12 @@ bool MCP27013::setOutputs(uint8_t data, uint8_t channel)
     if (!_i2c->Connect(SLAVE_ADDRESS)){
         return false;
     }
-    uint8_t buf[] = { GPIOA+channel,data};
+    uint8_t buf[] = { static_cast<uint8_t>(GPIOA+channel),data};
     _i2c->Write(buf,2);
     return true;
+}
+
+MCP27013::~MCP27013()
+{
+
 }
