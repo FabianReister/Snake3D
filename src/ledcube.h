@@ -26,7 +26,6 @@ private:
 
     bool selectRow(uint8_t row);
 
-    // TODO make it a param if using 1 or 2 channel ioexpanders
     IoExpander<CONFIG.io_expander_channel_count>* _ioexpander[CONFIG.cube_size/CONFIG.io_expander_channel_count];
 
 };

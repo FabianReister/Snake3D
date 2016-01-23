@@ -154,7 +154,6 @@ int main(){ //int argc, char* argv[]){
     if (init() || 1){
         game_status = RUNNING;
     }else{
-        // TODO uncomment this
         printf("Could not init I2C bus");
         return 1;
     }
