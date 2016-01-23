@@ -16,20 +16,21 @@
 //extern const Config CONFIG;
 
 
-std::mutex mutex_i2c;
-I2C i2c;
+static std::mutex mutex_i2c;
+static std::mutex mutex_game_status;
+static std::mutex mutex_snake;
+static std::mutex mutex_led_cube;
 
-std::mutex mutex_game_status;
-GameStatus game_status = STARTED;
+static GameStatus game_status = STARTED;
 
-nunchuck::Nunchuck<CONFIG.nunchuck_variant> _nunchuck(&i2c);
 
-// snake
-std::mutex mutex_snake;
-Fruits fruits;
-Snake snake(&fruits);
-std::mutex mutex_led_cube;
-LedCube ledCube(&i2c, &snake, &fruits);
+static I2C* i2c;
+static nunchuck::Nunchuck<CONFIG.nunchuck_variant>* _nunchuck;
+static Fruits* fruits;
+static Snake* snake;
+static LedCube* ledCube;
+
+
 
 //------------------------------------------------------------------------------------
 
@@ -47,13 +48,13 @@ bool slow_loop(){
 
         // get new data from nunchuck (threadsafe)
         mutex_i2c.lock();
-        _nunchuck.update();
+        _nunchuck->update();
         mutex_i2c.unlock();
 
         // calculate snake movement direction from nunchuck data
-        const nunchuck::Data* data = _nunchuck.data();
-        nunchuck::Direction xJoystickDirection = _nunchuck.getJoystickDirection(data->joystick.x);
-        nunchuck::Direction yJoystickDirection = _nunchuck.getJoystickDirection(data->joystick.y);
+        const nunchuck::Data* data = _nunchuck->data();
+        nunchuck::Direction xJoystickDirection = _nunchuck->getJoystickDirection(data->joystick.x);
+        nunchuck::Direction yJoystickDirection = _nunchuck->getJoystickDirection(data->joystick.y);
 
         Direction dir = {0,0,0};
         if (data->c_button == nunchuck::PRESSED){ // z minux
@@ -71,21 +72,21 @@ bool slow_loop(){
         // now update snake
         mutex_snake.lock();
 
-        if( !snake.step(dir) ){
+        if( !snake->step(dir) ){
             mutex_game_status.lock();
-   //         game_status = FINISHED;
+            //         game_status = FINISHED;
             mutex_game_status.unlock();
         }
 
         mutex_led_cube.lock();
 
         // "redraw" led cube
-        ledCube.updateLedStates();
+        ledCube->updateLedStates();
 
         mutex_led_cube.unlock();
         mutex_snake.unlock();
 
-	return true;
+        return true;
     }else{
         return false;
     }
@@ -109,7 +110,7 @@ void fast_loop(){
             mutex_i2c.lock();
             mutex_led_cube.lock();
 
-            ledCube.spinOnce();
+            ledCube->spinOnce();
 
             mutex_led_cube.unlock();
             mutex_i2c.unlock();
@@ -122,18 +123,27 @@ void fast_loop(){
 
 
 bool init(){
+
+    i2c = new I2C();
+    _nunchuck = new nunchuck::Nunchuck<CONFIG.nunchuck_variant>(i2c);
+    fruits = new Fruits();
+    snake = new Snake(fruits);
+    ledCube = new LedCube(i2c,snake,fruits);
+
+
+
     // init game structure
-    fruits.snake(&snake);
+    fruits->snake(snake);
 
     // init bus devices
-    i2c.init();
+    i2c->init();
     //nunchuck.isConnected();
 
 
     // build up
-    ledCube.updateLedStates();
+    ledCube->updateLedStates();
 
-    _nunchuck.init();
+    _nunchuck->init();
 
     return true;
 }
@@ -146,20 +156,20 @@ int main(int argc, char* argv[]){
     }else{
         // TODO uncomment this
         printf("Could not init I2C bus");
-	return 1;
+        return 1;
     }
 
     Ticker slow_ticker(CONFIG.slow_loop_frequency);
     slow_ticker.attach(slow_loop);
     slow_ticker.run();
 
-//    std::thread fast_thread(fast_loop);
+    //    std::thread fast_thread(fast_loop);
 
     // slow and fast ticker will run as long game is running, wait for threads to stop
     slow_ticker.thread()->join();
-//    fast_thread.join();
+    //    fast_thread.join();
 
-    printf("Snake length: %i \n", int(snake.length()));
+    printf("Snake length: %i \n", int(snake->length()));
 
     return 0;
 }
