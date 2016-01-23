@@ -22,7 +22,7 @@ add_executable(snake3d
     )
 # if cmake version 3.1
 #target_compile_features(snake3d PRIVATE cxx_range_for)
-add_definitions(-std=c++14)
+add_definitions(-std=c++11)
 
 # linker - threads
 target_link_libraries (snake3d ${CMAKE_THREAD_LIBS_INIT})
