@@ -56,6 +56,30 @@ int main(int argc, char* argv[]){
 
     while(n > 0){
 
+        char dir_c;
+
+        std::cin >> dir_c;
+        switch (dir_c){
+        case 'i': // y+
+            dir = {0,1,0};
+            break;
+        case 'j': // x-
+            dir = {-1,0,0};
+            break;
+        case 'k': // y-
+            dir = {0,-1,0};
+            break;
+        case 'l': // x+
+            dir = {1,0,0};
+            break;
+        case 'u': // z+
+            dir = {0,0,1};
+            break;
+        case 'o': // z-
+            dir = {0,0,-1};
+            break;
+        }
+
         snake.step(dir);
         std::stringstream ss;
         ss << "[";
