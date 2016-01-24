@@ -1,6 +1,6 @@
 #include "mcp27013.h"
 
-MCP27013::MCP27013(I2C* i2c, uint8_t address_msk) : IoExpander(i2c, SLAVE_BASE_ADDRESS & (0x03 & address_msk))
+MCP27013::MCP27013(I2C* i2c, uint8_t address_msk) : IoExpander(i2c, SLAVE_BASE_ADDRESS & (0x03 & address_msk),2)
 {}
 
 bool MCP27013::init()

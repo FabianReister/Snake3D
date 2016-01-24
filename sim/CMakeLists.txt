@@ -11,4 +11,5 @@ add_executable(snake3dsim
  sim_main.cpp
  ../src/snake.cpp
  ../src/fruits.cpp
+  ../src/led.cpp
 )

@@ -3,7 +3,7 @@
 
 #include "ioexpander.h"
 
-class MCP27013 : public IoExpander<2>
+class MCP27013 : public IoExpander
 {
 public:
     MCP27013(I2C* i2c, uint8_t address_msk);
@@ -18,7 +18,7 @@ private:
         GOIOB = 0x13
     };
     constexpr static  uint8_t SLAVE_BASE_ADDRESS = 0x20;
-
+    const uint8_t _channel_count = 2;
 
 };
 

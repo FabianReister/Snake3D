@@ -126,13 +126,15 @@ bool init(){
     parser = new Config::ConfigParser();
     parser->parse("/home/fabi/Projekte/Snake3D/snake3d.config");
 
-    std::cout << parser->section("i2c").field("device").as<std::string>() << std::endl;
-
     i2c = new I2C( parser->section("i2c").field("device").as<const char*>() );
     _nunchuck = new nunchuck::Nunchuck(i2c);
     fruits = new Fruits();
-    snake = new Snake(fruits);
-    ledCube = new LedCube(i2c,snake,fruits);
+    snake = new Snake(fruits,3, parser->section("general").field("cube-size").as<int>());
+    ledCube = new LedCube(
+                i2c,snake,fruits,
+                parser->section("io-expander").field("channel_count").as<int>(),
+                parser->section("general").field("cube-size").as<int>()
+                );
 
 
 
@@ -161,7 +163,7 @@ int main(){ //int argc, char* argv[]){
         return 1;
     }
 
-    Ticker slow_ticker(Config::CONFIG.slow_loop_frequency);
+    Ticker slow_ticker(parser->section("timings").field("frequency").as<float>());
     slow_ticker.attach(slow_loop);
     slow_ticker.run();
 

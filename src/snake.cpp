@@ -1,6 +1,6 @@
 #include "snake.h"
 
-Snake::Snake(Fruits* fruits,uint8_t start_size) : _fruits(fruits)
+Snake::Snake(Fruits* fruits, uint8_t start_size, uint8_t cube_size) : _fruits(fruits), _cube_size(cube_size)
 {
     _dir = {0,0,0};
     // init snake with
@@ -24,7 +24,7 @@ Snake::Snake(Fruits* fruits,uint8_t start_size) : _fruits(fruits)
     }
 
     // init snake somewhere but not in the outher 2 spheres
-    Led led = Led::randomCreate(2,Config::CONFIG.cube_size-2);
+    Led led = Led::randomCreate(2,_cube_size-2);
     _snake.push_front(led);
 
     for (uint8_t i = 1; i < start_size; i++){

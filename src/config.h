@@ -18,6 +18,7 @@ struct Config{
     char i2c_device[15];
 };
 
+/*
 constexpr Config CONFIG = {
     // cube size
     8,
@@ -29,7 +30,7 @@ constexpr Config CONFIG = {
     1,
     // i2c device name
     "/dev/i2c-1"
-};
+};*/
 
 }
 

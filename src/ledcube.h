@@ -15,7 +15,7 @@
 class LedCube
 {
 public:
-    LedCube(I2C* i2c, const Snake* snake, const Fruits* fruits, uint8_t cube_size = 8);
+    LedCube(I2C* i2c, const Snake* snake, const Fruits* fruits, uint8_t cube_size, uint8_t io_expander_channel_count);
     bool updateLedStates();
     void spinOnce();
 private:
@@ -30,8 +30,9 @@ private:
 
     bool selectRow(uint8_t row);
 
+   const uint8_t  _io_expander_channel_count;
     // TODO make array size variable
-    IoExpander<Config::CONFIG.io_expander_channel_count>* _ioexpander[MAX_CUBE_SIZE];
+    IoExpander* _ioexpander[MAX_CUBE_SIZE];
 
 };
 

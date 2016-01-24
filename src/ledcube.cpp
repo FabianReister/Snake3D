@@ -1,11 +1,11 @@
 #include "ledcube.h"
 
 
-LedCube::LedCube(I2C* i2c, const Snake *snake, const Fruits* fruits, uint8_t cube_size) :
-    _i2c(i2c), _snake(snake), _fruits(fruits), _cube_size(cube_size)
+LedCube::LedCube(I2C* i2c, const Snake *snake, const Fruits* fruits, uint8_t cube_size, uint8_t io_expander_channel_count) :
+    _i2c(i2c), _snake(snake), _fruits(fruits), _cube_size(cube_size), _io_expander_channel_count(io_expander_channel_count)
 {
 
-    for (uint8_t i = 0; i <_cube_size/Config::CONFIG.io_expander_channel_count; i++){
+    for (uint8_t i = 0; i <_cube_size/_io_expander_channel_count; i++){
         // TODO use template IoExpander<MCP27013> and move to Config::CONFIG
         _ioexpander[i] = new MCP27013(_i2c, i);
     }
@@ -14,9 +14,9 @@ LedCube::LedCube(I2C* i2c, const Snake *snake, const Fruits* fruits, uint8_t cub
 bool LedCube::updateLedStates()
 {
     // set everything to zero
-    for (uint8_t x = 0; x < Config::CONFIG.cube_size; x++){
-        for (uint8_t y = 0; y < Config::CONFIG.cube_size; y++){
-            for (uint8_t z = 0; z < Config::CONFIG.cube_size; z++){
+    for (uint8_t x = 0; x < _cube_size; x++){
+        for (uint8_t y = 0; y < _cube_size; y++){
+            for (uint8_t z = 0; z < _cube_size; z++){
                 _led_state[x][y][z] = false;
             }
         }
@@ -24,12 +24,12 @@ bool LedCube::updateLedStates()
 
     // set all leds ON for snake
     for (const Led& led : *(_snake->snake()) )  {
-        _led_state[led.x][led.y][led.z] = true;
+        _led_state[led.x()][led.y()][led.z()] = true;
     }
 
     // set led ON for fruits
     for(const Led& led : *(_fruits->fruits())){
-        _led_state[led.x][led.y][led.z] = true;
+        _led_state[led.x()][led.y()][led.z()] = true;
     }
 
     return true;
@@ -48,7 +48,7 @@ void LedCube::spinOnce()
             for(uint16_t i = 0; i < _cube_size; i++){
                 bits[i] = _led_state[i][col][row];
                 uint8_t data = static_cast<uint8_t>(bits.to_ulong());
-                _ioexpander[i/Config::CONFIG.io_expander_channel_count]->setOutputs(data,i%Config::CONFIG.io_expander_channel_count);
+                _ioexpander[i/_io_expander_channel_count]->setOutputs(data,i%_io_expander_channel_count);
             }
 
 

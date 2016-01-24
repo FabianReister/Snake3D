@@ -25,7 +25,7 @@ int main(int argc, char* argv[]){
     printf("starting...");
 
     Fruits fruits;
-    Snake snake(&fruits,5);
+    Snake snake(&fruits,3,8);
 
     Direction dir = {1,0,0};
 
@@ -90,7 +90,7 @@ int main(int argc, char* argv[]){
             if (!start){
                 ss << ",";
             }
-            ss << "[" << float(led.x) << "," << float(led.y) << "," << float(led.z) << "]";
+            ss << "[" << float(led.x()) << "," << float(led.y()) << "," << float(led.z()) << "]";
             start = false;
         }
 
