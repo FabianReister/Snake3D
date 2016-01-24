@@ -3,25 +3,21 @@
 namespace nunchuck {
 
 // base address
-template <Variant variant>
-const uint8_t Nunchuck<variant>::SLAVE_ADDRESS;
+const uint8_t Nunchuck::SLAVE_ADDRESS;
 
 
-template <Variant variant>
-Nunchuck<variant>::Nunchuck(I2C* i2c) : _i2c(i2c)
+Nunchuck::Nunchuck(I2C* i2c) : _i2c(i2c)
 {
 }
 
 
-template <Variant variant>
-inline bool Nunchuck<variant>::Connect()
+inline bool Nunchuck::Connect()
 {
     return _i2c->connect(SLAVE_ADDRESS);
 }
 
 
-template <Variant variant>
-bool Nunchuck<variant>::update()
+bool Nunchuck::update()
 {
     Connect();
     uint8_t reg = 0x00;
@@ -29,8 +25,7 @@ bool Nunchuck<variant>::update()
     return _i2c->Read(_raw_data,6);
 }
 
-template <Variant variant>
-const Data *Nunchuck<variant>::data()
+const Data *Nunchuck::data()
 {
     _data.joystick.x = _raw_data[JOYSTICK_X];
     _data.joystick.y = _raw_data[JOYSTICK_Y];
@@ -44,8 +39,7 @@ const Data *Nunchuck<variant>::data()
 }
 
 
-template <Variant variant>
-Direction Nunchuck<variant>::getJoystickDirection(uint8_t joystick_value)
+Direction Nunchuck::getJoystickDirection(uint8_t joystick_value)
 {
     // 127 is 255/2 -> mid
     if (joystick_value < 127 - HYSTERESIS){
@@ -58,51 +52,49 @@ Direction Nunchuck<variant>::getJoystickDirection(uint8_t joystick_value)
 }
 
 
-
-template <>
-bool Nunchuck<WHITE>::init()
+bool Nunchuck::init(nunchuck::Variant variant)
 {
     if (!Connect()){
         return false;
     }
-    // 0x40, 0x00
-	unsigned    char buf1[] = {0x40, 0x00};
 
-    if (!_i2c->Write(buf1, 2)){
-        return false;
+    switch (variant){
+    case nunchuck::WHITE:{
+        // 0x40, 0x00
+        unsigned    char buf1[] = {0x40, 0x00};
+
+        if (!_i2c->Write(buf1, 2)){
+            return false;
+        }
+        // 0x00
+        unsigned char buf2[] = {0x00};
+        if (!_i2c->Write(buf2, 1)){
+            return false;
+        }
+        break;
     }
-    // 0x00
-    unsigned char buf2[] = {0x00};
-    if (!_i2c->Write(buf2, 1)){
+
+    case nunchuck::BLACK:{
+        // send 0xF0, 0x55
+        uint8_t buf1[] = { 0xF0, 0x55};
+        if (!_i2c->Write(buf1, 2)){
+            return false;
+        }
+        usleep(100000u);
+        // send 0xFB, 0x00
+        uint8_t buf2[] = { 0xFB, 0x00};
+        if (!_i2c->Write(buf2, 2)){
+            return false;
+        }
+        break;
+    }
+    default:
         return false;
+        break;
     }
     return true;
 
-}
-
-template <>
-bool Nunchuck<BLACK>::init()
-{
-    if (!Connect()){
-        return false;
-    }
-    // send 0xF0, 0x55
-    uint8_t buf1[] = { 0xF0, 0x55};
-    if (!_i2c->Write(buf1, 2)){
-        return false;
-    }
-    usleep(100000u);
-    // send 0xFB, 0x00
-    uint8_t buf2[] = { 0xFB, 0x00};
-    if (!_i2c->Write(buf2, 2)){
-        return false;
-    }
-    return true;
 
 }
-
-
-template class Nunchuck<BLACK>;
-template class Nunchuck<WHITE>;
 
 }

@@ -30,13 +30,13 @@ enum Direction: int8_t{
 };
 
 
-template <Variant variant>
 class Nunchuck
 {
 public:
     Nunchuck(I2C* i2c);
     bool Connect();
-    bool init();
+
+    bool init(nunchuck::Variant variant);
 
 
     bool update();

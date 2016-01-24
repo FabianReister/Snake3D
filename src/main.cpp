@@ -7,6 +7,8 @@
 #include "game.h"
 #include "fruits.h"
 
+#include "configparser.h"
+
 #include <stdio.h>
 #include <iostream>
 
@@ -20,12 +22,12 @@ static std::mutex mutex_led_cube;
 
 static GameStatus game_status = STARTED;
 
-
+static Config::ConfigParser* parser;
 static I2C* i2c;
-static nunchuck::Nunchuck<CONFIG.nunchuck_variant>* _nunchuck;
 static Fruits* fruits;
 static Snake* snake;
 static LedCube* ledCube;
+static nunchuck::Nunchuck* _nunchuck;
 
 
 
@@ -121,8 +123,13 @@ void fast_loop(){
 
 bool init(){
 
-    i2c = new I2C(CONFIG.i2c_device);
-    _nunchuck = new nunchuck::Nunchuck<CONFIG.nunchuck_variant>(i2c);
+    parser = new Config::ConfigParser();
+    parser->parse("/home/fabi/Projekte/Snake3D/snake3d.config");
+
+    std::cout << parser->section("i2c").field("device").as<std::string>() << std::endl;
+
+    i2c = new I2C( parser->section("i2c").field("device").as<const char*>() );
+    _nunchuck = new nunchuck::Nunchuck(i2c);
     fruits = new Fruits();
     snake = new Snake(fruits);
     ledCube = new LedCube(i2c,snake,fruits);
@@ -135,12 +142,11 @@ bool init(){
     // init bus devices
     i2c->init();
     //nunchuck.isConnected();
-
+    _nunchuck->init(parser->section("nunchuck").field("variant").as<nunchuck::Variant>());
 
     // build up
     ledCube->updateLedStates();
 
-    _nunchuck->init();
 
     return true;
 }
@@ -155,7 +161,7 @@ int main(){ //int argc, char* argv[]){
         return 1;
     }
 
-    Ticker slow_ticker(CONFIG.slow_loop_frequency);
+    Ticker slow_ticker(Config::CONFIG.slow_loop_frequency);
     slow_ticker.attach(slow_loop);
     slow_ticker.run();
 

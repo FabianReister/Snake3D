@@ -4,6 +4,7 @@
 #include <inttypes.h>
 #include "nunchuck.h"
 
+namespace Config{
 
 struct Config{
     // general
@@ -30,5 +31,6 @@ constexpr Config CONFIG = {
     "/dev/i2c-1"
 };
 
+}
 
 #endif // CONFIG_H

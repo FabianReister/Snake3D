@@ -15,18 +15,23 @@
 class LedCube
 {
 public:
-    LedCube(I2C* i2c, const Snake* snake, const Fruits* fruits);
+    LedCube(I2C* i2c, const Snake* snake, const Fruits* fruits, uint8_t cube_size = 8);
     bool updateLedStates();
     void spinOnce();
 private:
     I2C* _i2c;
     const Snake* _snake;
     const Fruits* _fruits;
-    bool _led_state[CONFIG.cube_size][CONFIG.cube_size][CONFIG.cube_size];
+
+    static constexpr uint8_t MAX_CUBE_SIZE = 8;
+
+    const uint8_t _cube_size;
+    bool _led_state[MAX_CUBE_SIZE][MAX_CUBE_SIZE][MAX_CUBE_SIZE];
 
     bool selectRow(uint8_t row);
 
-    IoExpander<CONFIG.io_expander_channel_count>* _ioexpander[CONFIG.cube_size/CONFIG.io_expander_channel_count];
+    // TODO make array size variable
+    IoExpander<Config::CONFIG.io_expander_channel_count>* _ioexpander[MAX_CUBE_SIZE];
 
 };
 

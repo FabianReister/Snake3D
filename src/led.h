@@ -56,19 +56,19 @@ struct Led{
     uint8_t addWithBoundingsCheck(uint8_t a, T2 b){
         float sum = float(a)+float(b);
 
-        if ( sum > CONFIG.cube_size - 1){
+        if ( sum > Config::CONFIG.cube_size - 1){
             //sum is positive
-            return sum - CONFIG.cube_size;
+            return sum - Config::CONFIG.cube_size;
         }else if (sum < 0){
             //sum is negative
-            return CONFIG.cube_size + sum + 1;
+            return Config::CONFIG.cube_size + sum + 1;
         }else{
             return sum;
         }
     }
 
-    static Led randomCreate(uint8_t start = 0, uint8_t end = CONFIG.cube_size-1){
-        assert(end < CONFIG.cube_size);
+    static Led randomCreate(uint8_t start = 0, uint8_t end = Config::CONFIG.cube_size-1){
+        assert(end < Config::CONFIG.cube_size);
         assert(start < end);
         return { uint8_t(rand() % (end-start) + start),
                     uint8_t(rand() % (end-start) + start),

@@ -2,6 +2,8 @@ cmake_minimum_required (VERSION 2.8.3)
 project (Snake3D)
 
 SET(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-Wall")
+
+
 # for threads
 find_package (Threads REQUIRED)
 
@@ -13,6 +15,7 @@ set(SRCS
     fruits.cpp
     ticker.cpp
     mcp27013.cpp
+   configparser.cpp
     )
 
 # executable
