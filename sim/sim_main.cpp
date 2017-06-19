@@ -1,6 +1,6 @@
-#include "../src/fruits.h"
-#include "../src/snake.h"
-#include "../src/vector.h"
+#include "snake3d/fruits.h"
+#include "snake3d/snake.h"
+#include "snake3d/vector.h"
 
 #include <iostream>
 

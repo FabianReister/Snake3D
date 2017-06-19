@@ -4,18 +4,18 @@
 #include <inttypes.h>
 #include "nunchuck.h"
 
-namespace Config{
+namespace Config {
 
-struct Config{
-    // general
-    uint8_t cube_size;
-    // hardware
-    nunchuck::Variant nunchuck_variant;
-    uint8_t io_expander_channel_count;
-    // run settings;
-    float slow_loop_frequency;
-    // i2c
-    char i2c_device[15];
+struct Config {
+  // general
+  uint8_t cube_size;
+  // hardware
+  nunchuck::Variant nunchuck_variant;
+  uint8_t io_expander_channel_count;
+  // run settings;
+  float slow_loop_frequency;
+  // i2c
+  char i2c_device[15];
 };
 
 /*
@@ -32,6 +32,6 @@ constexpr Config CONFIG = {
     "/dev/i2c-1"
 };*/
 
-}
+}  // namespace Config
 
-#endif // CONFIG_H
+#endif  // CONFIG_H

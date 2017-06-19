@@ -3,9 +3,6 @@ set(PThreadLib -pthread)
 
 add_executable(allTests
  test.cpp
- ../src/snake.cpp
- ../src/fruits.cpp
-  ../src/led.cpp
 )
 
 
@@ -15,9 +12,10 @@ add_executable(allTests
 target_link_libraries(allTests
 # ${GTEST_LIBRARIES}
 # ${GMOCK_LIBRARIES}
-gtest
-gmock
- ${PThreadLib}
+  gtest
+  gmock
+  ${PThreadLib}
+  snake3d_lib
 )
 
 add_test(AllTests allTests)

@@ -1,7 +1,7 @@
 // tests.cpp
 //#include "whattotest.cpp"
 #include "gtest/gtest.h"
-#include "../src/fruits.h"
+#include "snake3d/fruits.h"
 
 TEST(FruitsTest, PositiveNos) {
     Fruits fruits;

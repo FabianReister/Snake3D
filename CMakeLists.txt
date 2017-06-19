@@ -4,7 +4,37 @@ project (Snake3D)
 
 add_definitions(-std=c++11)
 
-add_subdirectory(src)
+
+# for threads
+find_package (Threads REQUIRED)
+
+include_directories(include)
+
+add_library(snake3d_lib
+    src/snake3d/i2c.cpp
+    src/snake3d/nunchuck.cpp
+    src/snake3d/led.cpp
+    src/snake3d/ledcube.cpp
+    src/snake3d/snake.cpp
+    src/snake3d/fruits.cpp
+    src/snake3d/ticker.cpp
+    src/snake3d/mcp27013.cpp
+    src/snake3d/configparser.cpp
+)
+
+# executable
+add_executable(snake3d
+    src/main.cpp
+)
+# if cmake version 3.1
+#target_compile_features(snake3d PRIVATE cxx_range_for)
+set(CMAKE_CXX_FLAGS "-std=c++11")
+
+# linker - threads
+target_link_libraries(snake3d_lib ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(snake3d snake3d_lib)
+
+install(TARGETS snake3d DESTINATION bin)
 
 add_subdirectory(sim)
 
