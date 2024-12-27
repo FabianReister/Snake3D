@@ -1,0 +1,98 @@
+# Based on https://git.h2t.iar.kit.edu/sw/armarx/meta/axii/-/blob/main/data/modules/h2t/code_style/armarx_clang_format?ref_type=heads
+
+Language: Cpp
+Standard: c++20
+
+BasedOnStyle: llvm
+
+PointerAlignment: Left
+
+AccessModifierOffset: -4
+# BreakConstructorInitializers: BeforeComma
+# BreakBeforeParameter: EndsInComma
+#ExperimentalAutoDetectBinPacking: true
+ExperimentalAutoDetectBinPacking: true
+Cpp11BracedListStyle: true
+
+NamespaceIndentation: All
+
+CommentPragmas: "^ q:"
+
+ReflowComments: false
+
+ColumnLimit: 100
+SortIncludes: true
+
+AllowShortEnumsOnASingleLine: false
+
+#BreakBeforeBraces: GNU
+BreakBeforeBraces: Allman
+AllowShortIfStatementsOnASingleLine: false
+IndentCaseLabels: true
+
+# AlignConsecutiveAssignments: Consecutive
+AlignTrailingComments: false
+
+BinPackArguments: false
+BinPackParameters: false
+
+AllowAllParametersOfDeclarationOnNextLine: false
+
+AllowAllConstructorInitializersOnNextLine: true
+BreakConstructorInitializers: AfterColon
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
+
+BreakInheritanceList: AfterColon
+
+# ReturnTypeBreakingStyle: All
+# ReturnTypeBreakingStyle: AllDefinitions
+# BreakTemplateDeclarationsStyle: Yes
+
+# breaks return type
+AlwaysBreakAfterDefinitionReturnType: All
+
+AllowShortBlocksOnASingleLine: false
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+
+AlwaysBreakTemplateDeclarations: true
+
+BreakBeforeTernaryOperators: true
+
+#ContinuationIndentWidth: 8
+IndentWidth: 4
+#TabWidth: 4
+UseTab: "Never"
+MaxEmptyLinesToKeep: 2
+
+AllowAllArgumentsOnNextLine: true
+
+FixNamespaceComments: true
+AlignAfterOpenBracket: Align
+
+IncludeBlocks: Regroup
+IncludeCategories:
+
+# C header (deprecated in C++, should be replaced with <c...>-type headers
+  - Regex: "^<(assert.h|ctype.h|errno.h|fenv.h|float.h|inttypes.h|limits.h|locale.h|math.h|setjmp.h|signal.h|stdarg.h|stddef.h|stdint.h|stdio.h|stdlib.h|string.h|time.h|uchar.h|wchar.h|wctype.h)>$"
+    Priority: 1000
+# C/C++ header
+  - Regex: "^<(concepts|coroutine|any|bitset|chrono|compare|csetjmp|csignal|cstdarg|cstddef|cstdlib|ctime|functional|initializer_list|optional|source_location|stacktrace|tuple|type_traits|typeindex|typeinfo|utility|variant|version|memory|memory_resource|new|scoped_allocator|cfloat|cinttypes|climits|cstdint|limits|cassert|cerrno|exception|stdexcept|system_error|cctype|charconv|cstring|cuchar|cwchar|cwctype|format|string|string_view|array|deque|forward_list|list|map|queue|set|span|stack|unordered_map|unordered_set|vector|iterator|ranges|algorithm|execution|bit|cfenv|cmath|complex|numbers|numeric|random|ratio|valarray|clocale|codecvt|locale|cstdio|fstream|iomanip|ios|iosfwd|iostream|istream|ostream|spanstream|sstream|streambuf|strstream|syncstream|filesystem|regex|atomic|barrier|condition_variable|future|latch|mutex|semaphore|shared_mutex|stop_token|thread|experimental/.*)>$"
+    Priority: 900
+# Posix
+  - Regex: "^<(aio.h|arpa/inet.h|assert.h|complex.h|cpio.h|ctype.h|dirent.h|dlfcn.h|errno.h|fcntl.h|fenv.h|float.h|fmtmsg.h|fnmatch.h|ftw.h|glob.h|grp.h|iconv.h|inttypes.h|iso646.h|langinfo.h|libgen.h|limits.h|locale.h|math.h|monetary.h|mqueue.h|ndbm.h|net/if.h|netdb.h|netinet/in.h|netinet/tcp.h|nl_types.h|poll.h|pthread.h|pwd.h|regex.h|sched.h|search.h|semaphore.h|setjmp.h|signal.h|spawn.h|stdarg.h|stdbool.h|stddef.h|stdint.h|stdio.h|stdlib.h|string.h|strings.h|stropts.h|sys/ipc.h|sys/mman.h|sys/msg.h|sys/resource.h|sys/select.h|sys/sem.h|sys/shm.h|sys/socket.h|sys/stat.h|sys/statvfs.h|sys/time.h|sys/times.h|sys/types.h|sys/uio.h|sys/un.h|sys/utsname.h|sys/wait.h|syslog.h|tar.h|termios.h|tgmath.h|time.h|trace.h|ulimit.h|sys/resource.h|unistd.h|utime.h|utmpx.h|wchar.h|wctype.h|wordexp.h)>$"
+    Priority: 800
+# Linux
+  - Regex: "^(<sys/)"
+    Priority: 700
+  - Regex: "^(<linux/)"
+    Priority: 600
+# This project
+  - Regex: "^(<snake3d/)"
+    Priority: 500
+  - Regex: "^(\")"
+    Priority: 500
+  
+
+SeparateDefinitionBlocks: Always
