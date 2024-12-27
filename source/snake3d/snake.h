@@ -16,7 +16,7 @@ namespace snake3d
     class Snake
     {
     public:
-        Snake(std::experimental::observer_ptr<Fruits> fruits,
+        Snake(std::experimental::observer_ptr<const Fruits> fruits,
               uint8_t start_size,
               uint8_t cube_size);
         void direction(Direction dir);
@@ -27,7 +27,7 @@ namespace snake3d
         size_t length();
 
     private:
-        std::experimental::observer_ptr<Fruits> _fruits;
+        std::experimental::observer_ptr<const Fruits> _fruits;
         uint8_t _cube_size;
         // queues first element is snakes head
         std::deque<Led> _snake;

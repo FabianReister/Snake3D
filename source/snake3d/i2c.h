@@ -30,7 +30,7 @@ namespace snake3d
             return Write(arr.data(), arr.size());
         }
 
-        bool Write(const uint8_t* buf, std::uint8_t buf_length);
+        bool Write(const std::uint8_t* buf, std::uint8_t buf_length);
         bool Read(std::uint8_t* buf, std::uint8_t buf_length);
 
     private:

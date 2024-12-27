@@ -5,7 +5,7 @@
 namespace snake3d
 {
 
-    Snake::Snake(std::experimental::observer_ptr<Fruits> fruits,
+    Snake::Snake(std::experimental::observer_ptr<const Fruits> fruits,
                  uint8_t start_size,
                  uint8_t cube_size) :
         _fruits(fruits), _cube_size(cube_size)

@@ -22,7 +22,7 @@ namespace snake3d
     }
 
     bool
-    I2C::connect(uint8_t slave_address)
+    I2C::connect(std::uint8_t slave_address)
     {
         if (ioctl(_file, I2C_SLAVE, slave_address) < 0)
         {
@@ -33,7 +33,7 @@ namespace snake3d
     }
 
     bool
-    I2C::Write(const uint8_t* const buf, uint8_t buf_length)
+    I2C::Write(const std::uint8_t* const buf, std::uint8_t buf_length)
     {
         if (write(_file, buf, buf_length) != 1)
         {
@@ -45,7 +45,7 @@ namespace snake3d
     }
 
     bool
-    I2C::Read(uint8_t* buf, uint8_t buf_length)
+    I2C::Read(std::uint8_t* buf, std::uint8_t buf_length)
     {
         // char buf[10] = {0};
         // Using I2C Read

@@ -49,7 +49,7 @@ namespace snake3d::nunchuck
         static Direction getJoystickDirection(uint8_t joystick_value);
 
     private:
-        I2C* _i2c;
+        std::experimental::observer_ptr<I2C> _i2c;
         std::array<std::uint8_t, 6> _raw_data{0};
 
         Data _data = {};
