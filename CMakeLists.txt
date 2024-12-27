@@ -1,9 +1,7 @@
 cmake_minimum_required (VERSION 3.21)
-project (Snake3D)
+project (Snake3D CXX)
 
-# set(CMAKE_CXX_STANDARD_REQUIRED ON)
-# set(CMAKE_CXX_STANDARD 11)
-
+# for clang-tidy and clangd
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 #
@@ -31,14 +29,20 @@ add_library(snake3d_lib
     src/snake3d/ioexpander.cpp
 )
 
-target_include_directories(snake3d_lib PUBLIC include)
+target_include_directories(snake3d_lib 
+    PUBLIC 
+        include
+)
+
 target_compile_features(snake3d_lib 
     PUBLIC 
         cxx_std_23
-    #PRIVATE
-    #    cxx_ranges
 )
-target_link_libraries(snake3d_lib PUBLIC Threads::Threads)
+
+target_link_libraries(snake3d_lib
+    PUBLIC 
+        Threads::Threads
+)
 
 
 #
