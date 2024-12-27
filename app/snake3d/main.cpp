@@ -88,10 +88,8 @@ namespace snake3d
 
                 return true;
             }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
 
         //------------------------------------------------------------------------------------
@@ -210,6 +208,8 @@ namespace snake3d
     { // int argc, char* argv[]){
 
         config::ConfigParser parser;
+
+        // TODO(fabian.reister): via cli
         parser.parse("snake3d.config");
 
         Game game;
