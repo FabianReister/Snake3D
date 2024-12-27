@@ -4,111 +4,122 @@
 
 #include <iostream>
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/socket.h>
 #include <netinet/in.h>
-
+#include <ostream>
+#include <strings.h>
+#include <sys/socket.h>
+#include <sys/types.h>
 #include <unistd.h>
 
 #include <sstream>
 
+int main(int argc, char *argv[]) {
 
+  std::cout << "started!" << std::endl;
+  printf("starting...");
 
-int main(int argc, char* argv[]){
+  snake3d::Fruits fruits;
+  snake3d::Snake snake(std::experimental::make_observer(&fruits), 3, 8);
 
+  snake3d::Direction dir = {1, 0, 0};
 
-    std::cout << "started!";
-    printf("starting...");
+  int sockfd;
+  int newsockfd;
+  int portno = 10001;
 
-    Fruits fruits;
-    Snake snake(&fruits,3,8);
+  socklen_t clilen;
 
-    Direction dir = {1,0,0};
+  sockaddr_in serv_addr;
+  sockaddr_in cli_addr;
 
-    int sockfd, newsockfd, portno = 10001;
-    socklen_t clilen;
-    struct sockaddr_in serv_addr, cli_addr;
-    int n;
+  int n;
 
-    sockfd = socket(AF_INET, SOCK_STREAM, 0);
-    if (sockfd < 0)
-        printf("ERROR opening socket");
-    bzero((char *) &serv_addr, sizeof(serv_addr));
-    serv_addr.sin_family = AF_INET;
-    serv_addr.sin_addr.s_addr = INADDR_ANY;
-    serv_addr.sin_port = htons(portno);
-    if (bind(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0)
-        printf("ERROR on binding");
+  std::cout << "Opening socket ... " << std::endl;
 
-    listen(sockfd,5);
-    clilen = sizeof(cli_addr);
-    newsockfd = accept(sockfd, (struct sockaddr *) &cli_addr, &clilen);
-    if (newsockfd < 0)
-        printf("ERROR on accept");
+  sockfd = socket(AF_INET, SOCK_STREAM, 0);
+  if (sockfd < 0) {
+    printf("ERROR opening socket");
+  }
+  bzero(reinterpret_cast<char *>(&serv_addr), sizeof(serv_addr));
+  serv_addr.sin_family = AF_INET;
+  serv_addr.sin_addr.s_addr = INADDR_ANY;
+  serv_addr.sin_port = htons(portno);
 
+  std::cout << "Binding to port " << portno << std::endl;
+  if (bind(sockfd, reinterpret_cast<sockaddr *>(&serv_addr),
+           sizeof(serv_addr)) < 0) {
+    printf("ERROR on binding");
+  }
 
+  std::cout << "Listening ..." << std::endl;
 
-    n = 1;
+  listen(sockfd, 5);
+  clilen = sizeof(cli_addr);
+  newsockfd = accept(sockfd, reinterpret_cast<sockaddr *>(&cli_addr), &clilen);
+  if (newsockfd < 0) {
+    printf("ERROR on accept");
+  }
 
-    while(n > 0){
+  std::cout << "You can now press any key." << std::endl;
 
-        char dir_c;
+  n = 1;
 
-        std::cin >> dir_c;
-        switch (dir_c){
-        case 'i': // y+
-            dir = {0,1,0};
-            break;
-        case 'j': // x-
-            dir = {-1,0,0};
-            break;
-        case 'k': // y-
-            dir = {0,-1,0};
-            break;
-        case 'l': // x+
-            dir = {1,0,0};
-            break;
-        case 'u': // z+
-            dir = {0,0,1};
-            break;
-        case 'o': // z-
-            dir = {0,0,-1};
-            break;
-        }
+  while (n > 0) {
 
-        snake.step(dir);
-        std::stringstream ss;
-        ss << "[";
+    char dir_c;
 
-        // fill
-        bool start = true;
-        for (const Led& led : *(snake.snake())){
-            if (!start){
-                ss << ",";
-            }
-            ss << "[" << float(led.x()) << "," << float(led.y()) << "," << float(led.z()) << "]";
-            start = false;
-        }
-
-        // finalize
-        ss << "]\n";
-        std::string data = ss.str();
-
-        printf("Snake is moving %s ", data.c_str());
-        std::cout.flush();
-
-        n = write(newsockfd,data.c_str(),data.length());
-
-        sleep(1);
+    std::cin >> dir_c;
+    switch (dir_c) {
+    case 'i': // y+
+      dir = {0, 1, 0};
+      break;
+    case 'j': // x-
+      dir = {-1, 0, 0};
+      break;
+    case 'k': // y-
+      dir = {0, -1, 0};
+      break;
+    case 'l': // x+
+      dir = {1, 0, 0};
+      break;
+    case 'u': // z+
+      dir = {0, 0, 1};
+      break;
+    case 'o': // z-
+      dir = {0, 0, -1};
+      break;
     }
 
+    snake.step(dir);
+    std::stringstream ss;
+    ss << "[";
 
-    close(newsockfd);
-    close(sockfd);
+    // fill
+    bool start = true;
+    for (const snake3d::Led &led : *(snake.snake())) {
+      if (!start) {
+        ss << ",";
+      }
+      ss << "[" << static_cast<float>(led.x()) << ","
+         << static_cast<float>(led.y()) << "," << static_cast<float>(led.z())
+         << "]";
+      start = false;
+    }
 
-    return 0;
+    // finalize
+    ss << "]\n";
+    std::string data = ss.str();
+
+    printf("Snake is moving %s ", data.c_str());
+    std::cout.flush();
+
+    n = write(newsockfd, data.c_str(), data.length());
+
+    sleep(1);
+  }
+
+  close(newsockfd);
+  close(sockfd);
+
+  return 0;
 }

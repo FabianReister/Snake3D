@@ -1,7 +1,4 @@
-cmake_minimum_required (VERSION 2.8)
-project (Snake3D)
 
-add_definitions(-std=c++11)
 
 # executable
 add_executable(snake3d_sim

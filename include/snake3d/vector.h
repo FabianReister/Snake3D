@@ -1,15 +1,25 @@
-#ifndef VECTOR_H
-#define VECTOR_H
+#pragma once
 
-#include <inttypes.h>
+#include <cstdint>
 
-template <typename T1> struct Vector3D { T1 x, y, z; };
+namespace snake3d
+{
 
-template <typename T1> struct Vector2D { T1 x, y; };
+    template <typename T1>
+    struct Vector3D
+    {
+        T1 x, y, z;
+    };
 
-// template struct Vector3D<int8_t>;
-// typedef Vector3D<int8_t> Direction;
+    template <typename T1>
+    struct Vector2D
+    {
+        T1 x, y;
+    };
 
-using Direction = Vector3D<int8_t>;
+    // template struct Vector3D<int8_t>;
+    // typedef Vector3D<int8_t> Direction;
 
-#endif // VECTOR_H
+    using Direction = Vector3D<std::int8_t>;
+
+} // namespace snake3d

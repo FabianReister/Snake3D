@@ -1,34 +1,47 @@
 #include "snake3d/ticker.h"
 
-Ticker::Ticker(float frequency)
-    : _loop_duration(1000000000.0 / frequency)  // loop_dur is in nano seconds
-{}
+namespace snake3d
+{
 
-void Ticker::attach(bool (*fcn_ptr)()) { _fcn_ptr = fcn_ptr; }
+    Ticker::Ticker(float frequency) :
+        _loop_duration(1'000'000'000.0 / frequency) // loop_dur is in nano seconds
+    {
+    }
 
-void Ticker::run() {
-  assert(_fcn_ptr != nullptr &&
-         "You have to provide a callback function to run ticker!");
+    void
+    Ticker::attach(FnT&& fn)
+    {
+        this->fn = fn;
+    }
 
-  _thread = new std::thread(&Ticker::loop, this);
-}
+    void
+    Ticker::run()
+    {
+        assert(fn != nullptr && "You have to provide a callback function to run ticker!");
 
-void Ticker::loop() {
-  // while system ok
-  bool ok = true;
-  while (ok) {
-    auto start = std::chrono::high_resolution_clock::now();
+        _thread = new std::thread(&Ticker::loop, this);
+    }
 
-    // run attached callback function
-    ok = _fcn_ptr();
+    void
+    Ticker::loop()
+    {
+        // while system ok
+        bool ok = true;
+        while (ok)
+        {
+            auto start = std::chrono::high_resolution_clock::now();
 
-    // now get amount of time to wait
-    auto elapsed = std::chrono::high_resolution_clock::now() - start;
-    std::chrono::duration<double, std::nano> sleep_duration =
-        _loop_duration - elapsed;
-    // check if sleep > 0
-    assert(sleep_duration.count() > 0.0);
+            // run attached callback function
+            ok = fn();
 
-    std::this_thread::sleep_for(sleep_duration);
-  }
-}
+            // now get amount of time to wait
+            auto elapsed = std::chrono::high_resolution_clock::now() - start;
+            std::chrono::duration<double, std::nano> sleep_duration = _loop_duration - elapsed;
+            // check if sleep > 0
+            assert(sleep_duration.count() > 0.0);
+
+            std::this_thread::sleep_for(sleep_duration);
+        }
+    }
+
+} // namespace snake3d

@@ -1,116 +1,172 @@
 #include "snake3d/configparser.h"
 
-namespace Config {
+#include "snake3d/nunchuck.h"
 
-const std::string Section::GLOBAL_SECTION = "";
+#include <algorithm>
+#include <fstream>
+#include <iostream>
 
-//---------------------------------------------
-ConfigParser::ConfigParser() {}
+namespace snake3d
+{
 
-bool ConfigParser::parse(const char *filename) {
-  std::ifstream file(filename);
-  std::string line;
+    namespace config
+    {
 
-  Section section(Section::GLOBAL_SECTION);
-  while (std::getline(file, line)) {
-    // remove whitespaces
-    line.erase(remove_if(line.begin(), line.end(), isspace), line.end());
+        const std::string Section::GLOBAL_SECTION = "";
 
-    // skip empty lines
-    if (line.compare("") == 0) {
-      continue;
-    }
-    // check for section
-    if (line.at(0) == '[' && line.at(line.size() - 1)) {
-      // first, add last section to storage
-      _config[section.name()] = section;
-      // std::cout << section.name() << std::endl;
-      // now create new section
-      line = line.substr(1, line.size() - 2);
-      section = Section(line);
-    } else {
-      size_t eq_pos = line.find_first_of("=");
-      if (eq_pos == std::string::npos) {
-        continue;
-      }
-      std::string key = line.substr(0, eq_pos);
-      std::string val = line.substr(eq_pos + 1, line.size() - 1);
-      // std::cout << key << " , " << val << std::endl;
-      section.add(key, val);
-    }
-  }
+        //---------------------------------------------
+        ConfigParser::ConfigParser()
+        {
+        }
 
-  return true;
-}
+        bool
+        ConfigParser::parse(const char* filename)
+        {
+            std::ifstream file(filename);
+            std::string line;
 
-const Section &ConfigParser::section(const std::string &key) const {
-  auto search = _config.find(key);
-  if (search != _config.end()) {
-    return search->second;
-  }
-  // if no match, return global section
-  return _config.find(Section::GLOBAL_SECTION)->second;
-}
+            Section section(Section::GLOBAL_SECTION);
+            while (std::getline(file, line))
+            {
+                // remove whitespaces
+                line.erase(std::remove_if(line.begin(), line.end(), isspace), line.end());
 
-//---------------------------------------------
-Section::Section(const std::string &name = Section::GLOBAL_SECTION)
-    : _name(name) {
-  _elements.clear();
-}
+                // skip empty lines
+                if (line.compare("") == 0)
+                {
+                    continue;
+                }
+                // check for section
+                if (line.at(0) == '[' && line.at(line.size() - 1))
+                {
+                    // first, add last section to storage
+                    _config[section.name()] = section;
+                    // std::cout << section.name() << std::endl;
+                    // now create new section
+                    line = line.substr(1, line.size() - 2);
+                    section = Section(line);
+                }
+                else
+                {
+                    size_t eq_pos = line.find_first_of("=");
+                    if (eq_pos == std::string::npos)
+                    {
+                        continue;
+                    }
+                    std::string key = line.substr(0, eq_pos);
+                    std::string val = line.substr(eq_pos + 1, line.size() - 1);
+                    // std::cout << key << " , " << val << std::endl;
+                    section.add(key, val);
+                }
+            }
 
-void Section::add(const std::string &key, const std::string &value) {
-  _elements[key] = Value(value);
-}
+            return true;
+        }
 
-const Value &Section::field(const std::string &key) const {
-  auto search = _elements.find(key);
-  if (search != _elements.end()) {
-    return search->second;
-  } else {
-    return _empty_value;
-  }
-}
-std::string Section::name() const { return _name; }
-/*
+        const Section&
+        ConfigParser::section(const std::string& key) const
+        {
+            auto search = _config.find(key);
+            if (search != _config.end())
+            {
+                return search->second;
+            }
+            // if no match, return global section
+            return _config.find(Section::GLOBAL_SECTION)->second;
+        }
+
+        //---------------------------------------------
+        Section::Section(const std::string& name = Section::GLOBAL_SECTION) : _name(name)
+        {
+            _elements.clear();
+        }
+
+        void
+        Section::add(const std::string& key, const std::string& value)
+        {
+            _elements[key] = Value(value);
+        }
+
+        const Value&
+        Section::field(const std::string& key) const
+        {
+            auto search = _elements.find(key);
+            if (search != _elements.end())
+            {
+                return search->second;
+            }
+            else
+            {
+                return _empty_value;
+            }
+        }
+
+        std::string
+        Section::name() const
+        {
+            return _name;
+        }
+
+        /*
 template <typename T>
 const T& Value::as() const
 {
 
 }*/
 
-template <>
-std::string Value::as() const {
-  return _value;
-}
+        template <>
+        std::string
+        Value::as() const
+        {
+            return _value;
+        }
 
-template <>
-const char *Value::as() const {
-  return _value.c_str();
-}
+        template <>
+        const char*
+        Value::as() const
+        {
+            return _value.c_str();
+        }
 
-template <>
-int Value::as() const {
-  std::cout << _value << std::endl;
-  return std::stoi(_value);
-}
+        template <>
+        int
+        Value::as() const
+        {
+            std::cout << _value << std::endl;
+            return std::stoi(_value);
+        }
 
-template <>
-double Value::as() const {
-  return std::stod(_value);
-}
+        template <>
+        double
+        Value::as() const
+        {
+            return std::stod(_value);
+        }
 
-template <>
-float Value::as() const {
-  return std::stof(_value);
-}
+        template <>
+        float
+        Value::as() const
+        {
+            return std::stof(_value);
+        }
 
-template <>
-nunchuck::Variant Value::as() const {
-  if (_value.compare("white") == 0) {
-    return nunchuck::WHITE;
-  } else {
-    return nunchuck::BLACK;
-  }
-}
+        template <>
+        nunchuck::Variant
+        Value::as() const
+        {
+            if (_value.compare("white") == 0)
+            {
+                return nunchuck::WHITE;
+            }
+            else
+            {
+                return nunchuck::BLACK;
+            }
+        }
 
-};  // namespace Config
+        Value::Value(std::string value) : _value(std::move(value))
+        {
+        }
+    }; // namespace config
+
+} // namespace snake3d

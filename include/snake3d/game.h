@@ -1,11 +1,15 @@
-#ifndef GAME_H
-#define GAME_H
+#pragma once
 
-enum GameStatus {
-  STARTED,  // started but not running
-  RUNNING,
-  FINISHED,
-  ERROR
-};
+namespace snake3d
+{
 
-#endif  // GAME_H
+    enum class GameStatus
+    {
+        INIT,
+        STARTED, // started but not running
+        RUNNING,
+        FINISHED,
+        ERROR
+    };
+
+} // namespace snake3d

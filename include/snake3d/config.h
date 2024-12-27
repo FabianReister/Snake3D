@@ -1,24 +1,26 @@
-#ifndef CONFIG_H
-#define CONFIG_H
+#pragma once
 
-#include <inttypes.h>
-#include "nunchuck.h"
+#include <snake3d/nunchuck.h>
 
-namespace Config {
+#include <array>
 
-struct Config {
-  // general
-  uint8_t cube_size;
-  // hardware
-  nunchuck::Variant nunchuck_variant;
-  uint8_t io_expander_channel_count;
-  // run settings;
-  float slow_loop_frequency;
-  // i2c
-  char i2c_device[15];
-};
+namespace snake3d::config
+{
 
-/*
+    struct Config
+    {
+        // general
+        uint8_t cube_size;
+        // hardware
+        nunchuck::Variant nunchuck_variant;
+        uint8_t io_expander_channel_count;
+        // run settings;
+        float slow_loop_frequency;
+        // i2c
+        std::array<char, 15> i2c_device;
+    };
+
+    /*
 constexpr Config CONFIG = {
     // cube size
     8,
@@ -32,6 +34,4 @@ constexpr Config CONFIG = {
     "/dev/i2c-1"
 };*/
 
-}  // namespace Config
-
-#endif  // CONFIG_H
+} // namespace snake3d::config

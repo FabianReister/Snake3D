@@ -1,27 +1,36 @@
-#ifndef TICKER_H
-#define TICKER_H
+#pragma once
 
-#include <assert.h>
+#include <cassert>
+#include <functional>
 #include <thread>
 
-#include <iostream>
-#include <stdio.h>
+namespace snake3d
+{
 
-class Ticker {
-public:
-  explicit Ticker(float frequency);
-  void attach(bool (*fcn_ptr)());
-  void run();
-  std::thread *thread() { return _thread; }
+    class Ticker
+    {
+    public:
+        explicit Ticker(float frequency);
 
-private:
-  std::chrono::duration<double, std::nano> _loop_duration;
+        using FnT = std::function<bool()>;
 
-  bool (*_fcn_ptr)() = nullptr;
+        void attach(FnT&& fn);
+        void run();
 
-  std::thread *_thread;
+        std::thread*
+        thread()
+        {
+            return _thread;
+        }
 
-  void loop();
-};
+    private:
+        std::chrono::duration<double, std::nano> _loop_duration;
 
-#endif // TICKER_H
+        FnT fn = nullptr;
+
+        std::thread* _thread;
+
+        void loop();
+    };
+
+} // namespace snake3d

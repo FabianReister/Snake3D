@@ -1,59 +1,75 @@
-#ifndef NUNCHUCK_H
-#define NUNCHUCK_H
+#pragma once
 
-#include <inttypes.h>
-#include "i2c.h"
-#include "vector.h"
+#include <snake3d/i2c.h>
+#include <snake3d/vector.h>
 
-namespace nunchuck {
+#include <array>
+#include <experimental/memory>
 
-enum Variant { WHITE, BLACK };
+namespace snake3d::nunchuck
+{
 
-enum ButtonState : bool { PRESSED = 0, RELEASE = 1 };
+    enum Variant
+    {
+        WHITE,
+        BLACK
+    };
 
-struct Data {
-  Vector2D<uint8_t> joystick;
-  Vector3D<uint16_t> accelerometer;
-  ButtonState c_button, z_button;
-};
+    enum class ButtonState : bool
+    {
+        PRESSED = false,
+        RELEASE = true
+    };
 
-enum Direction : int8_t { NEGATIVE = -1, POSITIVE = 1, NONE = 0 };
+    struct Data
+    {
+        Vector2D<uint8_t> joystick;
+        Vector3D<uint16_t> accelerometer;
+        ButtonState c_button, z_button;
+    };
 
-class Nunchuck {
- public:
-  explicit Nunchuck(I2C *i2c);
-  bool Connect();
+    enum class Direction : int8_t
+    {
+        NEGATIVE = -1,
+        POSITIVE = 1,
+        NONE = 0
+    };
 
-  bool init(nunchuck::Variant variant);
+    class Nunchuck
+    {
+    public:
+        explicit Nunchuck(std::experimental::observer_ptr<I2C> i2c);
+        bool Connect();
 
-  bool update();
-  const Data *data();
+        bool init(nunchuck::Variant variant);
 
-  static Direction getJoystickDirection(uint8_t joystick_value);
+        bool update();
+        const Data* data();
 
- private:
-  I2C *_i2c;
-  uint8_t _raw_data[6] = {0};
+        static Direction getJoystickDirection(uint8_t joystick_value);
 
-  Data _data = {};
+    private:
+        I2C* _i2c;
+        std::array<std::uint8_t, 6> _raw_data{0};
 
-  enum RegAddress : uint8_t {
-    // registers
-    JOYSTICK_X = 0,
-    JOYSTICK_Y = 1,
-    ACCELEROMETER_X = 2,
-    ACCELEROMETER_Y = 3,
-    ACCELEROMETER_Z = 4,
-    MIXED = 5
-  };
+        Data _data = {};
 
-  // base address
-  static const uint8_t SLAVE_ADDRESS = 0x52;
+        enum RegAddress : uint8_t
+        {
+            // registers
+            JOYSTICK_X = 0,
+            JOYSTICK_Y = 1,
+            ACCELEROMETER_X = 2,
+            ACCELEROMETER_Y = 3,
+            ACCELEROMETER_Z = 4,
+            MIXED = 5
+        };
 
-  // hysteresis for joysticks
-  static const uint8_t HYSTERESIS = 40;
-};
+        // base address
+        static const uint8_t SLAVE_ADDRESS = 0x52;
 
-}  // namespace nunchuck
+        // hysteresis for joysticks
+        static const uint8_t HYSTERESIS = 40;
+    };
 
-#endif  // NUNCHUCK_H
+} // namespace snake3d::nunchuck

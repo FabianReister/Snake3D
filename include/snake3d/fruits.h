@@ -1,30 +1,33 @@
-#ifndef FRUITS_H
-#define FRUITS_H
+#pragma once
 
-#include <assert.h>
+#include <snake3d/led.h>
+#include <snake3d/snake.h>
+
 #include <vector>
+#include <experimental/memory>
 
-#include "config.h"
-#include "led.h"
-#include "snake.h"
+namespace snake3d
+{
 
-// forward declaration
-class Snake;
+    // forward declaration
+    class Snake;
 
-class Fruits {
- public:
-  Fruits();
-  void generateFruit();
-  bool isFruit(const Led *led);
-  void remove(const Led *fruit);
-  // setter
-  void snake(const Snake *snake) { _snake = snake; }
-  // getter
-  const std::vector<Led> *fruits() const { return &_fruits; }
+    class Fruits
+    {
+    public:
+        Fruits();
+        void generateFruit();
+        bool isFruit(const Led& led);
+        void remove(const Led& fruit);
 
- private:
-  const Snake *_snake;
-  std::vector<Led> _fruits;
-};
+        // setter
+        void snake(std::experimental::observer_ptr<const Snake> snake);
+        // getter
+        [[nodiscard]] const std::vector<Led>* fruits() const;
 
-#endif  // FRUITS_H
+    private:
+        std::experimental::observer_ptr<const Snake> _snake;
+        std::vector<Led> _fruits;
+    };
+
+} // namespace snake3d

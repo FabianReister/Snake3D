@@ -1,41 +1,47 @@
-#ifndef LEDCUBE_H
-#define LEDCUBE_H
+#pragma once
 
-#include <inttypes.h>
+#include <snake3d/constants.h>
 
-#include <assert.h>
-#include <bitset>
+#include <array>
+#include <cstdint>
+#include <experimental/memory>
+#include <memory>
 
-#include <thread>
+namespace snake3d
+{
 
-#include "config.h"
-#include "fruits.h"
-#include "snake.h"
+    class IoExpander;
+    class I2C;
+    class Fruits;
+    class Snake;
 
-#include "mcp27013.h"
+    class LedCube
+    {
+    public:
+        LedCube(std::experimental::observer_ptr<I2C> i2c,
+                std::experimental::observer_ptr<const Snake> snake,
+                std::experimental::observer_ptr<const Fruits> fruits,
+                std::uint8_t cube_size,
+                std::uint8_t io_expander_channel_count);
+        bool updateLedStates();
+        void spinOnce();
 
-class LedCube {
- public:
-  LedCube(I2C *i2c, const Snake *snake, const Fruits *fruits, uint8_t cube_size,
-          uint8_t io_expander_channel_count);
-  bool updateLedStates();
-  void spinOnce();
+        ~LedCube();
 
- private:
-  I2C *_i2c;
-  const Snake *_snake;
-  const Fruits *_fruits;
+    private:
+        std::experimental::observer_ptr<I2C> _i2c;
+        std::experimental::observer_ptr<const Snake> _snake;
+        std::experimental::observer_ptr<const Fruits> _fruits;
 
-  static constexpr uint8_t MAX_CUBE_SIZE = 8;
+        const std::uint8_t _cube_size;
+        bool _led_state[constants::MAX_CUBE_SIZE][constants::MAX_CUBE_SIZE]
+                       [constants::MAX_CUBE_SIZE];
 
-  const uint8_t _cube_size;
-  bool _led_state[MAX_CUBE_SIZE][MAX_CUBE_SIZE][MAX_CUBE_SIZE];
+        bool selectRow(std::uint8_t row);
 
-  bool selectRow(uint8_t row);
+        const std::uint8_t _io_expander_channel_count;
 
-  const uint8_t _io_expander_channel_count;
-  // TODO make array size variable
-  IoExpander *_ioexpander[MAX_CUBE_SIZE];
-};
+        std::array<std::unique_ptr<IoExpander>, constants::MAX_CUBE_SIZE> _ioexpander;
+    };
 
-#endif  // LEDCUBE_H
+} // namespace snake3d

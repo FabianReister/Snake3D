@@ -1,30 +1,41 @@
-#ifndef I2C_H
-#define I2C_H
+#pragma once
 
-#include <errno.h>
-#include <fcntl.h>
-#include <inttypes.h>
 #include <linux/i2c-dev.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+
 #include <sys/ioctl.h>
+
+#include <fcntl.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
 
-class I2C {
- public:
-  I2C(const char *device);
-  bool init();
-  bool connect(uint8_t slave_adress);
+#include <array>
+#include <cstdint>
+#include <cstdlib>
 
-  bool Write(uint8_t *buf, uint8_t buf_length);
-  bool Read(uint8_t *buf, uint8_t buf_length);
+namespace snake3d
+{
 
- private:
-  int _file;
-  const char *_device;
-};
+    class I2C
+    {
+    public:
+        I2C(const char* device);
+        bool init();
+        bool connect(std::uint8_t slave_adress);
 
-#endif  // I2C_H
+        template <std::size_t N>
+        bool
+        Write(const std::array<unsigned char, N>& arr)
+        {
+            return Write(arr.data(), arr.size());
+        }
+
+        bool Write(const uint8_t* buf, std::uint8_t buf_length);
+        bool Read(std::uint8_t* buf, std::uint8_t buf_length);
+
+    private:
+        int _file;
+        const char* _device;
+    };
+
+} // namespace snake3d
