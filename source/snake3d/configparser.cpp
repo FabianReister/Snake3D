@@ -1,6 +1,6 @@
-#include "snake3d/configparser.h"
+#include "configparser.h"
 
-#include "snake3d/nunchuck.h"
+#include <snake3d/nunchuck.h>
 
 #include <cctype>
 #include <fstream>
@@ -14,10 +14,7 @@ namespace snake3d
 
         const std::string Section::GLOBAL_SECTION = "";
 
-        //---------------------------------------------
-        ConfigParser::ConfigParser()
-        {
-        }
+        ConfigParser::ConfigParser() = default;
 
         bool
         ConfigParser::parse(const char* filename)

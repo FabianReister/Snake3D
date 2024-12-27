@@ -1,21 +1,11 @@
 
 #include <snake3d/configparser.h>
-#include <snake3d/fruits.h>
 #include <snake3d/game.h>
-#include <snake3d/i2c.h>
-#include <snake3d/ledcube.h>
-#include <snake3d/nunchuck.h>
-#include <snake3d/snake.h>
-#include <snake3d/ticker.h>
 
 #include <cstdio>
 
-
 namespace snake3d
 {
-
-   
-
     int
     main()
     { // int argc, char* argv[]){
@@ -32,6 +22,8 @@ namespace snake3d
             printf("Could not init I2C bus");
             return 1;
         }
+
+        game.run();
 
         game.printResult();
 

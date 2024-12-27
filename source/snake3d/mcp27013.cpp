@@ -1,4 +1,4 @@
-#include "snake3d/mcp27013.h"
+#include "mcp27013.h"
 
 namespace snake3d
 {

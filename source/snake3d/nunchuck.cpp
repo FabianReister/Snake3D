@@ -1,4 +1,4 @@
-#include "snake3d/nunchuck.h"
+#include "nunchuck.h"
 
 namespace snake3d::nunchuck
 {

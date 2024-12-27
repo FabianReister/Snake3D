@@ -1,4 +1,4 @@
-#include "snake3d/ticker.h"
+#include "ticker.h"
 
 namespace snake3d
 {

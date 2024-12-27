@@ -1,4 +1,4 @@
-#include "snake3d/snake.h"
+#include "snake.h"
 
 #include <algorithm>
 
@@ -10,7 +10,7 @@ namespace snake3d
                  uint8_t cube_size) :
         _fruits(fruits), _cube_size(cube_size)
     {
-        _dir = {0, 0, 0};
+        _dir = {.x = 0, .y = 0, .z = 0};
         // init snake with
         int dimension = rand() % 3 - 1;
         // direction should be either 1 or -1

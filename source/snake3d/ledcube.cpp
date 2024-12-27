@@ -1,8 +1,8 @@
-#include "snake3d/ledcube.h"
+#include "ledcube.h"
 
-#include "snake3d/led.h"
-#include "snake3d/snake.h"
+#include <snake3d/led.h>
 #include <snake3d/mcp27013.h>
+#include <snake3d/snake.h>
 
 #include <bitset>
 #include <cassert>

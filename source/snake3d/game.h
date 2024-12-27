@@ -34,11 +34,15 @@ namespace snake3d
     class Game
     {
     public:
+        Game();
+        ~Game();
+
         bool init(const config::ConfigParser& parser);
 
         void run();
 
         void printResult();
+
 
     protected:
         //!

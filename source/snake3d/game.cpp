@@ -1,12 +1,12 @@
 #include "game.h"
-#include "snake3d/configparser.h"
-#include "snake3d/ledcube.h"
-#include "snake3d/nunchuck.h"
-#include "snake3d/snake.h"
-#include "snake3d/ticker.h"
+
+#include <snake3d/configparser.h>
+#include <snake3d/ledcube.h>
+#include <snake3d/nunchuck.h>
+#include <snake3d/snake.h>
+#include <snake3d/ticker.h>
 
 #include <iostream>
-
 
 namespace snake3d
 {
@@ -167,4 +167,8 @@ namespace snake3d
     {
         printf("Snake length: %i \n", static_cast<int>(snake->length()));
     }
+
+    Game::Game() = default;
+
+    Game::~Game() = default;
 } // namespace snake3d

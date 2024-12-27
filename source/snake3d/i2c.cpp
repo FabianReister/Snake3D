@@ -1,4 +1,4 @@
-#include "snake3d/i2c.h"
+#include "i2c.h"
 
 #include <cstdio>
 

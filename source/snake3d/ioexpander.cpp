@@ -1,4 +1,4 @@
-#include "snake3d/ioexpander.h"
+#include "ioexpander.h"
 
 namespace snake3d
 {
