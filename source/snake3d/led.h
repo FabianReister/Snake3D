@@ -15,7 +15,7 @@ namespace snake3d
         bool operator==(const Led& rhs) const;
 
         template <typename T2>
-        const Led
+        Led
         operator+(const Vector3D<T2>& rhs)
         {
             Led shifted = {addWithBoundingsCheck(this->_x, rhs.x),
@@ -33,7 +33,7 @@ namespace snake3d
         }
 
         template <typename T2>
-        const Led
+        Led
         operator-(const Vector3D<T2>& rhs)
         {
             Led shifted = {addWithBoundingsCheck(this->_x, -rhs.x),

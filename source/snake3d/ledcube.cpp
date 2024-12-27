@@ -52,7 +52,7 @@ namespace snake3d
         }
 
         // set led ON for fruits
-        for (const Led& led : *(_fruits->fruits()))
+        for (const Led& led : _fruits->fruits())
         {
             _led_state[led.x()][led.y()][led.z()] = true;
         }

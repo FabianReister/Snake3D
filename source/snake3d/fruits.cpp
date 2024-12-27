@@ -1,6 +1,7 @@
 #include "snake3d/fruits.h"
 
 #include <algorithm>
+#include <vector>
 
 namespace snake3d
 {
@@ -15,7 +16,7 @@ namespace snake3d
         bool fruit_set = false;
         Led fruit = {0, 0, 0};
 
-        while (!fruit_set)
+        while (not fruit_set)
         {
             fruit = Led::randomCreate();
             fruit_set = true;
@@ -39,15 +40,15 @@ namespace snake3d
     }
 
     void
-    Fruits::remove(const Led& fruit)
+    Fruits::remove(const Led fruit)
     {
-        _fruits.erase(std::remove(_fruits.begin(), _fruits.end(), fruit), _fruits.end());
+        std::erase(_fruits, fruit);
     }
 
-    const std::vector<Led>*
+    const std::vector<Led>&
     Fruits::fruits() const
     {
-        return &_fruits;
+        return _fruits;
     }
 
     void

@@ -3,7 +3,7 @@
 namespace snake3d
 {
 
-    MCP27013::MCP27013(std::experimental::observer_ptr<I2C> i2c, uint8_t address_msk) :
+    MCP27013::MCP27013(std::experimental::observer_ptr<I2C> i2c, std::uint8_t address_msk) :
         IoExpander(i2c, SLAVE_BASE_ADDRESS & (0x03 & address_msk), 2)
     {
     }
@@ -11,30 +11,26 @@ namespace snake3d
     bool
     MCP27013::init()
     {
-        if (!_i2c->connect(SLAVE_ADDRESS))
+        if (not _i2c->connect(SLAVE_ADDRESS))
         {
             return false;
         }
         // set pins as output
-        uint8_t buf[] = {IODIRA, 0xFF, 0xFF};
-        _i2c->Write(buf, 3);
+        _i2c->Write(std::array<std::uint8_t, 3>{IODIRA, 0xFF, 0xFF});
         return true;
     }
 
     bool
-    MCP27013::setOutputs(uint8_t data, uint8_t channel)
+    MCP27013::setOutputs(std::uint8_t data, std::uint8_t channel)
     {
-        if (!_i2c->connect(SLAVE_ADDRESS))
+        if (not _i2c->connect(SLAVE_ADDRESS))
         {
             return false;
         }
-        uint8_t buf[] = {static_cast<uint8_t>(GPIOA + channel), data};
-        _i2c->Write(buf, 2);
+        _i2c->Write(std::array<std::uint8_t, 2>{static_cast<std::uint8_t>(GPIOA + channel), data});
         return true;
     }
 
-    MCP27013::~MCP27013()
-    {
-    }
+    MCP27013::~MCP27013() = default;
 
 } // namespace snake3d
