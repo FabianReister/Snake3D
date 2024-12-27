@@ -59,9 +59,11 @@ namespace snake3d
         Led new_front = _snake.front() + _dir;
 
         // check if snake already has new_front as element -> got caught
-        if (std::ranges::any_of(_snake,
-                                [&new_front](const Led& snake_element) -> bool
-                                { return snake_element == new_front; }))
+        // TODO(future.me): std::ranges::any_of
+        if (std::any_of(_snake.begin(),
+                        _snake.end(),
+                        [&new_front](const Led& snake_element) -> bool
+                        { return snake_element == new_front; }))
         {
             return false;
         }

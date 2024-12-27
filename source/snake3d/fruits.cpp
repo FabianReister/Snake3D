@@ -37,8 +37,10 @@ namespace snake3d
     bool
     Fruits::isFruit(const Led& led)
     {
-        return std::ranges::any_of(_fruits,
-                                   [&led](const Led& fruit) -> bool { return fruit == led; });
+        // TODO(future.me): std::ranges::any_of
+        return std::any_of(_fruits.begin(),
+                           _fruits.end(),
+                           [&led](const Led& fruit) -> bool { return fruit == led; });
     }
 
     void

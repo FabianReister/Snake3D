@@ -63,7 +63,7 @@ target_include_directories(snake3d_lib
 
 target_compile_features(snake3d_lib 
     PUBLIC 
-        cxx_std_23
+        cxx_std_20
 )
 
 target_link_libraries(snake3d_lib
@@ -78,8 +78,17 @@ add_library(snake3d::lib ALIAS snake3d_lib)
 # Executables
 ################################################
 
+# - the main executable
+
 add_subdirectory(app/snake3d)
-add_subdirectory(app/sim)
+
+# - the simulator
+
+option(SNAKE3D_BUILD_SIMULATOR "Build the simulated input device." ON)
+
+if(${SNAKE3D_BUILD_SIMULATOR})
+    add_subdirectory(app/sim)
+endif()
 
 #
 # Installation
@@ -87,10 +96,10 @@ add_subdirectory(app/sim)
 
 # - executables
 
+
 install(
     TARGETS
-        snake3d
-        snake3d_sim
+        ${SNAKE3D_APPS}
     DESTINATION
         bin
 )
@@ -109,4 +118,8 @@ install(
 # Test
 ################################################
 
-add_subdirectory(test)
+option(SNAKE3D_BUILD_TESTS "Build the tests." ON)
+
+if(${SNAKE3D_BUILD_TESTS})
+    add_subdirectory(test)
+endif()
