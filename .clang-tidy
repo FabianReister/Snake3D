@@ -1,0 +1,113 @@
+# based on https://github.com/frankaemika/libfranka/blob/master/.clang-tidy
+# and https://git.h2t.iar.kit.edu/sw/armarx/meta/axii/-/blob/main/data/modules/h2t/code_style/default_clang_tidy?ref_type=heads
+User: fabian.reister
+Checks: '
+  clang-diagnostic-*,
+  clang-analyzer-*,
+  -clang-analyzer-alpha*,
+  google-*,
+  -google-explicit-constructor,
+  -google-runtime-references,
+  -google-default-arguments,
+  misc-*,
+  -misc-throw-by-value-catch-by-reference,
+  -misc-non-private-member-variables-in-classes,
+  readability-*,
+  -readability-redundant-string-init,
+  -readability-identifier-length,
+  -readability-container-contains,
+  modernize-*,
+  -modernize-use-trailing-return-type,
+  -modernize-use-nodiscard,
+  -modernize-pass-by-value,
+  performance-*,
+  -performance-no-automatic-move,
+  cppcoreguidelines-*,
+  -cppcoreguidelines-pro-type-reinterpret-cast,
+  -cppcoreguidelines-pro-bounds-pointer-arithmetic,
+  -cppcoreguidelines-pro-bounds-constant-array-index,
+  -cppcoreguidelines-pro-type-union-access,
+  -cppcoreguidelines-pro-bounds-array-to-pointer-decay,
+  -cppcoreguidelines-pro-type-member-init,
+  -cppcoreguidelines-special-member-functions,
+  -cppcoreguidelines-owning-memory
+'
+HeaderFilterRegex: '^.*(source|include).*$'
+CheckOptions:
+  - key:    readability-identifier-naming.NamespaceCase
+    value:  lower_case
+  # - key:    readability-identifier-naming.ClassCase
+    # value:  CamelCase
+  # - key:    readability-identifier-naming.StructCase
+    # value:  CamelCase
+  # - key:    readability-identifier-naming.EnumCase
+    # value:  CamelCase
+  # - key:    readability-identifier-naming.UnionCase
+    # value:  CamelCase
+  # - key:    readability-identifier-naming.TypedefCase
+    # value:  CamelCase
+  # - key:    readability-identifier-naming.ParameterCase
+    # value:  camelBack
+  # - key:    readability-identifier-naming.VariableCase
+    # value:  camelBack
+  # - key:    readability-identifier-naming.MemberCase
+    # value:  camelBack
+  # - key:    readability-identifier-naming.PublicMemberCase
+    # value:  camelBack
+  # - key:    readability-identifier-naming.ProtectedMemberCase
+    # value:  camelBack
+  # - key:    readability-identifier-naming.ProtectedMemberSuffix
+    # value:  '_'
+  # - key:    readability-identifier-naming.PrivateMemberCase
+    # value:  camelBack
+  # - key:    readability-identifier-naming.PrivateMemberSuffix
+    # value:  '_'
+  # - key:    readability-identifier-naming.FunctionCase
+    # value:  camelBack
+  # - key:    readability-identifier-naming.MethodCase
+    # value:  camelBack
+  # - key:    readability-identifier-naming.ConstantPrefix
+    # value:  ''
+  # - key:    readability-identifier-naming.ConstantCase
+    # value:  CamelCase
+  # - key:    readability-identifier-naming.ConstantMemberPrefix
+    # value:  ''
+  # - key:    readability-identifier-naming.ConstantMemberCase
+    # value:  camelBack
+  # - key:    readability-identifier-naming.ConstantParameterPrefix
+    # value:  ''
+  # - key:    readability-identifier-naming.ConstantParameterCase
+    # value:  camelBack
+  # - key:    readability-identifier-naming.LocalConstantParameterPrefix
+    # value:  ''
+  # - key:    readability-identifier-naming.LocalConstantCase
+    # value:  camelBack
+  # - key:    readability-identifier-naming.ConstexprVariablePrefix
+    # value:  ''
+  # - key:    readability-identifier-naming.ConstexprVariableCase
+    # value:  camelBack
+  # - key:    readabiltiy-identifier-naming.EnumConstantCase
+    # value:  CamelCase
+  # - key:    readabiltiy-identifier-naming.EnumConstantPrefix
+    # value:  ''
+  # - key:    readabiltiy-identifier-naming.EnumConstantSuffix
+    # value:  ''
+  # - key:    readability-identifier-naming.ClassConstantCase
+    # value:  camelBack
+  # - key:    readabiltiy-identifier-naming.ClassMemberIgnoredRegexp
+    # value:  '^.*_(T|R|Tl|P|O|Pt)_.*$'
+  # - key:    readability-identifier-naming.PublicMemberCaseIgnoredRegexp
+    # value:  '^.*_(T|R|Tl|P|O|Pt)_.*$'
+  # - key:    readability-identifier-naming.ProtectedMemberCaseIgnoredRegexp
+    # value:  '^.*_(T|R|Tl|P|O|Pt)_.*$'
+  # - key:    readability-identifier-naming.PrivateMemberCaseIgnoredRegexp
+    # value:  '^.*_(T|R|Tl|P|O|Pt)_.*$'
+  # - key:    readability-identifier-naming.MemberCaseIgnoredRegexp
+    # value:  '^.*_(T|R|Tl|P|O|Pt)_.*$'
+  # - key:    readability-identifier-naming.LocalVariableIgnoredRegexp
+    # value:  '^.*_(T|R|Tl|P|O|Pt)_.*$'
+  # - key:    readability-identifier-naming.LocalConstantIgnoredRegexp
+    # value:  '^.*_(T|R|Tl|P|O|Pt)_.*$'
+  # - key:    readability-identifier-naming.ParameterIgnoredRegexp
+    # value:  '^.*_(T|R|Tl|P|O|Pt)_.*$'
+# 
