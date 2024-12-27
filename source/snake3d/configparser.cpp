@@ -2,7 +2,7 @@
 
 #include "snake3d/nunchuck.h"
 
-#include <algorithm>
+#include <cctype>
 #include <fstream>
 #include <iostream>
 
@@ -29,10 +29,10 @@ namespace snake3d
             while (std::getline(file, line))
             {
                 // remove whitespaces
-                line.erase(std::remove_if(line.begin(), line.end(), isspace), line.end());
+                std::erase_if(line, isspace);
 
                 // skip empty lines
-                if (line.compare("") == 0)
+                if (line.empty())
                 {
                     continue;
                 }
@@ -48,7 +48,7 @@ namespace snake3d
                 }
                 else
                 {
-                    size_t eq_pos = line.find_first_of("=");
+                    size_t eq_pos = line.find_first_of('=');
                     if (eq_pos == std::string::npos)
                     {
                         continue;
@@ -90,15 +90,13 @@ namespace snake3d
         const Value&
         Section::field(const std::string& key) const
         {
-            auto search = _elements.find(key);
+            const auto search = _elements.find(key);
             if (search != _elements.end())
             {
                 return search->second;
             }
-            else
-            {
-                return _empty_value;
-            }
+
+            return _empty_value;
         }
 
         std::string
@@ -154,14 +152,12 @@ const T& Value::as() const
         nunchuck::Variant
         Value::as() const
         {
-            if (_value.compare("white") == 0)
+            if (_value == "white")
             {
                 return nunchuck::WHITE;
             }
-            else
-            {
-                return nunchuck::BLACK;
-            }
+
+            return nunchuck::BLACK;
         }
 
         Value::Value(std::string value) : _value(std::move(value))

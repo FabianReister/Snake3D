@@ -20,8 +20,7 @@ namespace snake3d::nunchuck
     Nunchuck::update()
     {
         Connect();
-        uint8_t reg = 0x00;
-        _i2c->Write(&reg, 1);
+        // _i2c->Write(0x00);
         return _i2c->Read(_raw_data.data(), 6);
     }
 
@@ -63,7 +62,7 @@ namespace snake3d::nunchuck
     bool
     Nunchuck::init(nunchuck::Variant variant)
     {
-        if (!Connect())
+        if (not Connect())
         {
             return false;
         }
@@ -73,35 +72,32 @@ namespace snake3d::nunchuck
             case nunchuck::WHITE:
             {
                 // 0x40, 0x00
-                const std::array<std::uint8_t, 2> buf1{0x40, 0x00};
+                if (not _i2c->Write(std::array<std::uint8_t, 2>{0x40, 0x00}))
+                {
+                    return false;
+                }
 
-                if (!_i2c->Write(buf1))
-                {
-                    return false;
-                }
                 // 0x00
-                const std::array<std::uint8_t, 1> buf2{0x00};
-                if (!_i2c->Write(buf2))
+                if (not _i2c->Write(std::array<std::uint8_t, 1>{0x00}))
                 {
                     return false;
                 }
+
                 break;
             }
 
             case nunchuck::BLACK:
             {
                 // send 0xF0, 0x55
-                const std::array<std::uint8_t, 2> buf1{0xF0, 0x55};
-
-                if (!_i2c->Write(buf1))
+                if (not _i2c->Write(std::array<std::uint8_t, 2>{0xF0, 0x55}))
                 {
                     return false;
                 }
-                usleep(100000u);
+
+                usleep(100'000u);
 
                 // send 0xFB, 0x00
-                const std::array<std::uint8_t, 2> buf2{0xFB, 0x00};
-                if (!_i2c->Write(buf2))
+                if (not _i2c->Write(std::array<std::uint8_t, 2>{0xFB, 0x00}))
                 {
                     return false;
                 }

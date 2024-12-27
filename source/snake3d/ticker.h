@@ -17,11 +17,7 @@ namespace snake3d
         void attach(FnT&& fn);
         void run();
 
-        std::thread*
-        thread()
-        {
-            return _thread;
-        }
+        std::thread* thread();
 
     private:
         std::chrono::duration<double, std::nano> _loop_duration;

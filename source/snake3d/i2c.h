@@ -3,10 +3,10 @@
 #include <linux/i2c-dev.h>
 
 #include <sys/ioctl.h>
-
-#include <fcntl.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+
+#include <fcntl.h>
 #include <unistd.h>
 
 #include <array>
@@ -25,7 +25,7 @@ namespace snake3d
 
         template <std::size_t N>
         bool
-        Write(const std::array<unsigned char, N>& arr)
+        Write(const std::array<std::uint8_t, N>& arr)
         {
             return Write(arr.data(), arr.size());
         }

@@ -1,5 +1,7 @@
 #include "snake3d/snake.h"
 
+#include <algorithm>
+
 namespace snake3d
 {
 
@@ -12,7 +14,7 @@ namespace snake3d
         // init snake with
         int dimension = rand() % 3 - 1;
         // direction should be either 1 or -1
-        int8_t direction = rand() % 2;
+        std::int8_t direction = rand() % 2;
         if (direction == 0)
         {
             direction = -1;
@@ -57,12 +59,11 @@ namespace snake3d
         Led new_front = _snake.front() + _dir;
 
         // check if snake already has new_front as element -> got caught
-        for (const Led& snake_element : _snake)
+        if (std::ranges::any_of(_snake,
+                                [&new_front](const Led& snake_element) -> bool
+                                { return snake_element == new_front; }))
         {
-            if (snake_element == new_front)
-            {
-                return false;
-            }
+            return false;
         }
 
         _snake.push_front(new_front);

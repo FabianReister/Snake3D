@@ -99,7 +99,7 @@ namespace snake3d
         void
         fast_loop()
         {
-            while (1)
+            while (true)
             {
                 mutex_game_status.lock();
                 GameStatus status = game_status;

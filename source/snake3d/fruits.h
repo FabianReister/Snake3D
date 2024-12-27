@@ -18,12 +18,12 @@ namespace snake3d
         Fruits();
         void generateFruit();
         bool isFruit(const Led& led);
-        void remove(const Led& fruit);
+        void remove(Led fruit);
 
         // setter
         void snake(std::experimental::observer_ptr<const Snake> snake);
         // getter
-        [[nodiscard]] const std::vector<Led>* fruits() const;
+        [[nodiscard]] const std::vector<Led>& fruits() const;
 
     private:
         std::experimental::observer_ptr<const Snake> _snake;
