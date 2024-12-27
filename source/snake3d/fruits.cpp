@@ -1,4 +1,5 @@
 #include "snake3d/fruits.h"
+#include "snake3d/snake.h"
 
 #include <algorithm>
 #include <vector>

@@ -1,7 +1,7 @@
-// tests.cpp
-// #include "whattotest.cpp"
-#include "gtest/gtest.h"
-#include "snake3d/fruits.h"
+#include <snake3d/fruits.h>
+#include <snake3d/snake.h>
+
+#include <gtest/gtest.h>
 
 namespace snake3d
 {

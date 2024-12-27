@@ -1,7 +1,6 @@
 #pragma once
 
 #include <snake3d/led.h>
-#include <snake3d/snake.h>
 
 #include <vector>
 #include <experimental/memory>

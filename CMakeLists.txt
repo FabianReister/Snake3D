@@ -27,6 +27,7 @@ target_sources(snake3d_lib
     FILES
         source/snake3d/config.h
         source/snake3d/constants.h
+        source/snake3d/game.h
         source/snake3d/i2c.h
         source/snake3d/nunchuck.h
         source/snake3d/led.h
@@ -43,6 +44,7 @@ target_sources(snake3d_lib
 target_sources(snake3d_lib
     PRIVATE
         source/snake3d/i2c.cpp
+        source/snake3d/game.cpp
         source/snake3d/nunchuck.cpp
         source/snake3d/led.cpp
         source/snake3d/ledcube.cpp
