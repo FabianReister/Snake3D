@@ -14,7 +14,7 @@ There is also a simulation mode available. If you are curious about playing Snak
 
 ### Wii Nunchuck
 
-To learn more about how to connect a Nunchuck, read [this article](http://web.engr.oregonstate.edu/~johnstay/ece375/pdf/nunchuk.pdf).
+To learn more about how to connect a Nunchuck, read [this article](https://bootlin.com/labs/doc/nunchuk.pdf).
 
 ## Building this project
 
