@@ -1,5 +1,6 @@
 CompileFlags:
-  Add: [-std=c++2b]
+  Add: -std=c++2b
+
 Diagnostics:
-  UnusedIncludes: Strict
   AnalyzeAngledIncludes: true
+  UnusedIncludes: Strict
